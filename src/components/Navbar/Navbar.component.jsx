@@ -1,81 +1,45 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Avatar from '../Avatar';
+import Search from '../Search';
 import Toggler from '../Toggler/Toggler.component';
 
 const Bar = styled.nav`
-  background-color: #4412a3;
   height: 64px;
   color: white;
   display: flex;
   align-items: center;
   padding: 0 1em;
-  box-shadow: 0 5px 5px #0005;
+  box-shadow: 0 2px 2px #0005;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: linear-gradient(125deg, var(--primary) 0%, var(--accent) 100%);
 `;
 
 const MenuButton = styled.button`
   background-color: transparent;
-  border-radius: 5px;
-  padding: 0.5em;
+  border-radius: 99em;
+  width: 3em;
+  height: 3em;
+  padding: 0;
   border: none;
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  transition: 200ms;
 
   :hover {
-    background-color: #270227;
+    background-color: #fff3;
   }
 
   :active {
-    background-color: #4d044d;
+    background-color: #fff8;
   }
 
   & img {
     margin: auto;
-    height: 1rem;
-  }
-`;
-
-const SearchBar = styled.input`
-  background-color: #2e0c6f;
-  max-width: 50ch;
-  width: 100%;
-  color: white;
-  border: solid 1px gray;
-  padding: 0.5em 1em;
-  outline: none;
-  border-radius: 0.2em 0 0 0.2em;
-  font-size: 0.8rem;
-
-  ::placeholder {
-    color: lightgray;
-    opacity: 0.9;
-    text-overflow: ellipsis;
-  }
-
-  :focus {
-    background-color: #4d044d;
-    transition: 50ms;
-  }
-`;
-
-const SearchButton = styled.button`
-  background-color: #4c229b;
-  color: white;
-  border: solid 1px gray;
-  border-left: none;
-  padding: 0.5em 1em;
-  font-size: 0.8rem;
-  border-radius: 0 0.2em 0.2em 0;
-  cursor: pointer;
-
-  :active {
-    background-color: purple;
-  }
-
-  & img {
-    height: 0.7rem;
-    transform: translateY(1px);
+    height: 1.2rem;
   }
 `;
 
@@ -96,7 +60,7 @@ const End = styled(Section)`
 `;
 
 function Navbar() {
-  const [darkTheme, setDarkTheme] = useState(false);
+  const darkTheme = false;
 
   return (
     <Bar>
@@ -106,20 +70,11 @@ function Navbar() {
         </MenuButton>
       </Section>
       <CenteredAndExpanded>
-        <SearchBar placeholder="Search" />
-        <SearchButton>
-          <img src="search.svg" alt="search-icon" />
-        </SearchButton>
+        <Search />
       </CenteredAndExpanded>
       <End>
-        <Toggler
-          checked={darkTheme}
-          onChange={() => {
-            setDarkTheme(!darkTheme);
-          }}
-          label="Dark Mode"
-        />
-        <Avatar onClick={() => {}} />
+        <Toggler checked={darkTheme} label="Dark Mode" />
+        <Avatar />
       </End>
     </Bar>
   );

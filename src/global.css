@@ -1,4 +1,8 @@
 html {
+  --primary: #d53369;
+  --primary-brighter: #e93772;
+  --accent: #daae51;
+
   font-size: 1.125rem;
   line-height: 1.6;
   font-weight: 400;

@@ -16,7 +16,7 @@ const Switch = styled.div`
 
 const SwitchElem = styled.span`
   position: absolute;
-  background-color: ${(props) => (props.checked ? 'purple' : 'lightgrey')};
+  background-color: ${(props) => (props.checked ? '#d53369' : 'lightgrey')};
   transition: 0.4s;
   inset: 0.5em;
   border-radius: 999em;
@@ -30,7 +30,7 @@ const SwitchElem = styled.span`
     bottom: 2px;
     left: 2px;
     width: 14px;
-    background-color: white;
+    background-color: ${(props) => (props.onChange !== undefined ? 'white' : 'gray')};
     border-radius: 99em;
     box-shadow: 0 2px 2px #0005;
     transition: 0.4s;
@@ -49,8 +49,8 @@ export default function Toggler({ checked, onChange, label }) {
   return (
     <Container>
       <Switch onClick={onChange}>
-        <HtmlInput type="checkbox" {...{ checked, onChange }} />
-        <SwitchElem checked={checked} />
+        <HtmlInput type="checkbox" {...{ checked, onChange }} readOnly={!onChange} />
+        <SwitchElem {...{ checked, onChange }} />
       </Switch>
       {label && <span>{label}</span>}
     </Container>

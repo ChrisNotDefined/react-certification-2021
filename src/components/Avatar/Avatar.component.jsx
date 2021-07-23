@@ -24,5 +24,5 @@ const CircleImage = styled.img`
 `;
 
 export default function Avatar({ onClick, src }) {
-  return <CircleImage onClick={onClick} src={src || 'user.svg'}></CircleImage>;
+  return <CircleImage onClick={onClick} src={src || 'user.svg'} />;
 }

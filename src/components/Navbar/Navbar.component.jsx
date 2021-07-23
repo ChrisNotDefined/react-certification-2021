@@ -25,10 +25,9 @@ const MenuButton = styled.button`
   :hover {
     background-color: #270227;
   }
-  
+
   :active {
     background-color: #4d044d;
-
   }
 
   & img {
@@ -103,7 +102,7 @@ function Navbar() {
     <Bar>
       <Section>
         <MenuButton>
-          <img src="list.svg" alt="menu-icon"></img>
+          <img src="list.svg" alt="menu-icon" />
         </MenuButton>
       </Section>
       <CenteredAndExpanded>

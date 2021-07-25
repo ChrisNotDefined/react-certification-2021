@@ -47,6 +47,10 @@ const CenteredAndExpanded = styled.div`
   flex: 2;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 600px) {
+    flex: 1;
+  }
 `;
 
 const Section = styled.div`
@@ -55,20 +59,30 @@ const Section = styled.div`
   flex: 1;
 `;
 
-const End = styled(Section)`
-  justify-content: flex-end;
+const Start = styled(Section)`
+  @media (max-width: 650px) {
+    flex: 0.4;
+  }
 `;
 
-function Navbar() {
+const End = styled(Section)`
+  justify-content: flex-end;
+
+  @media (max-width: 500px) {
+    display: none;
+  }
+`;
+
+function Navbar({ showSidebar }) {
   const darkTheme = false;
 
   return (
     <Bar>
-      <Section>
-        <MenuButton>
+      <Start>
+        <MenuButton onClick={showSidebar}>
           <img src="list.svg" alt="menu-icon" />
         </MenuButton>
-      </Section>
+      </Start>
       <CenteredAndExpanded>
         <Search />
       </CenteredAndExpanded>

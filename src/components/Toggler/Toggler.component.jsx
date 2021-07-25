@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const HtmlInput = styled.input`
   opacity: 0;
+  position: absolute;
   width: 0;
   height: 0;
 `;
@@ -14,11 +15,14 @@ const Switch = styled.div`
   display: inline-block;
 `;
 
-const SwitchElem = styled.span`
+const SwitchElem = styled.div`
   position: absolute;
-  background-color: ${(props) => (props.checked ? '#d53369' : 'lightgrey')};
+  background-color: ${(props) => (props.checked ? 'var(--primary)' : 'lightgrey')};
   transition: 0.4s;
-  inset: 0.5em;
+  left: 0;
+  right: 1em;
+  top: 0.5em;
+  bottom: 0.5em;
   border-radius: 999em;
   cursor: pointer;
   box-shadow: inset 0 -2px 2px #0002;
@@ -40,19 +44,29 @@ const SwitchElem = styled.span`
 `;
 
 const Container = styled.div`
-  display: inline-flex;
+  display: flex;
   width: fit-content;
-  align-items: center;
+  align-items: stretch;
+`;
+
+const Label = styled.label`
+  margin: auto;
+  transform: translateY(5%);
 `;
 
 export default function Toggler({ checked, onChange, label }) {
   return (
     <Container>
       <Switch onClick={onChange}>
-        <HtmlInput type="checkbox" {...{ checked, onChange }} readOnly={!onChange} />
+        <HtmlInput
+          name="check"
+          type="checkbox"
+          {...{ checked, onChange }}
+          readOnly={!onChange}
+        />
         <SwitchElem {...{ checked, onChange }} />
       </Switch>
-      {label && <span>{label}</span>}
+      {label && <Label htmlFor="check">{label}</Label>}
     </Container>
   );
 }

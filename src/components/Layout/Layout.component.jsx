@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Container = styled.main`
   min-height: calc(100vh - 64px);
-  box-sizing: border-box;
+  padding: 0;
 `;
 
 function Layout({ children }) {

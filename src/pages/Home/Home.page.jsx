@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import VideoCard from '../../components/VideoCard';
+import { useYTSearch } from '../../utils/hooks/useYTSearch';
 import { fromHtmlEntities } from '../../utils/strings';
 
 const VideoList = styled.section`
@@ -40,8 +41,12 @@ function HomePage() {
       });
   }, []);
 
+  const { videos } = useYTSearch();
   return (
     <VideoList>
+      {videos.map((e) => (
+        <div key={e}>{e}</div>
+      ))}
       {videoList.map((e) => (
         <VideoCard key={e.etag} videoObj={e} />
       ))}

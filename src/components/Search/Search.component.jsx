@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import { useYTSearch } from '../../utils/hooks/useYTSearch';
 
-const Wrapper = styled.div`
+const Wrapper = styled.form`
   box-shadow: 0 2px 2px #0005;
   display: flex;
   max-width: 50ch;
@@ -54,9 +55,21 @@ const SearchButton = styled.button`
 `;
 
 export default function Search() {
+  const { fetchVideos } = useYTSearch();
+  const [keyword, setKeyword] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchVideos(keyword);
+  };
+
+  const handleInput = (e) => {
+    setKeyword(e.target.value);
+  };
+
   return (
-    <Wrapper>
-      <SearchBar placeholder="Search" />
+    <Wrapper onSubmit={handleSubmit}>
+      <SearchBar value={keyword} onChange={handleInput} placeholder="Search" />
       <SearchButton>
         <img src="search.svg" alt="search-icon" />
       </SearchButton>

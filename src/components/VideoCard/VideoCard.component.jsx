@@ -1,6 +1,7 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
-// import Avatar from '../Avatar';
+import { useMediaQuery } from '../../utils/hooks/useMediaQuery';
 
 const CardBoard = styled.div`
   background-color: white;
@@ -9,6 +10,12 @@ const CardBoard = styled.div`
   padding: 1em;
   min-width: 30ch;
   border-radius: 0.2rem;
+  cursor: pointer;
+  transition: background-color 200ms;
+
+  :hover {
+    background-color: #eee;
+  }
 `;
 
 const CardImage = styled.img`
@@ -42,9 +49,35 @@ const CardSubtitle = styled.div`
 `;
 
 export default function VideoCard({ videoObj }) {
+  const gt700px = useMediaQuery('(min-width: 700px)');
+  const gt500px = useMediaQuery('(min-width: 500px)');
+  const history = useHistory();
+
+  const decideImg = () => {
+    if (!videoObj) return null;
+    if (videoObj.thumbnail) return videoObj.thumbnail;
+
+    const { thumbnails } = videoObj;
+
+    if (thumbnails) {
+      if (gt700px)
+        return thumbnails.high.url || thumbnails.medium.url || thumbnails.default.url;
+
+      if (gt500px) return thumbnails.medium.url || thumbnails.default.url;
+
+      return thumbnails.default.url;
+    }
+
+    return null;
+  };
+
+  const navigateToVideo = () => {
+    history.push(`/video=${videoObj.id}`);
+  };
+
   return (
-    <CardBoard>
-      <CardImage src={videoObj.thumbnail} alt={`${videoObj.title}thumbnail`} />
+    <CardBoard onClick={navigateToVideo}>
+      <CardImage src={decideImg()} alt={`${videoObj.title} thumbnail`} />
       <CardTitle>{videoObj.title}</CardTitle>
       <CardSubtitle>{videoObj.channelTitle}</CardSubtitle>
       <CardContent>{videoObj.description}</CardContent>

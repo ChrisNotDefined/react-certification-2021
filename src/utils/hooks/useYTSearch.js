@@ -5,7 +5,7 @@ import {
   SearchContext,
   newData,
 } from '../../providers/SearchContext';
-// import { queryVideos } from '../../providers/youtubeAPI';
+import { queryVideos } from '../../providers/youtubeAPI';
 
 const useYTSearch = () => {
   const [error, setError] = useState(null);
@@ -15,12 +15,12 @@ const useYTSearch = () => {
   const fetchVideos = async (query) => {
     dispatch(loadStart());
     try {
-      const fetchedData = {
-        items: [...query],
-        prevPageToken: 'prev',
-        nextPageToken: 'next',
-      };
-      // const fetchedData = queryVideos({ keyword: query });
+      // const fetchedData = {
+      //   items: [...videoList],
+      //   prevPageToken: 'prev',
+      //   nextPageToken: 'next',
+      // };
+      const fetchedData = await queryVideos({ keyword: query });
       dispatch(newData(fetchedData));
     } catch (err) {
       setError(err);

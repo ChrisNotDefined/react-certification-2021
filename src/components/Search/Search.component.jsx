@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useYTSearch } from '../../utils/hooks/useYTSearch';
+import { storage } from '../../utils/storage';
 
 const Wrapper = styled.form`
   box-shadow: 0 2px 2px #0005;
@@ -60,6 +61,8 @@ export default function Search() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (keyword === '') return;
+    storage.set('search', { last: keyword });
     fetchVideos(keyword);
   };
 

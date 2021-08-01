@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router';
 import styled from 'styled-components';
+import VideoTile from '../../components/VideoTile/VideoTile.component';
+
 import { FavoriteIcon } from '../../Icons';
+import { useMockedVideos } from '../../utils/hooks/useMockedVideos';
+// import { useYTSearch } from '../../utils/hooks/useYTSearch';
+// import { storage } from '../../utils/storage';
 
 const VideoGrid = styled.section`
   display: grid;
@@ -16,8 +22,13 @@ const VideoSection = styled.section`
   background-color: var(--primary);
 `;
 
-const RecomendedSection = styled.section`
+const ListSection = styled.section`
   background-color: var(--accent);
+
+  @media (min-width: 700px) {
+    height: 100%;
+    overflow-y: auto;
+  }
 `;
 
 const VideoFrame = styled.iframe`
@@ -56,9 +67,23 @@ const FavButton = styled.button`
 
 export default function VideoDetails() {
   const [isFav, setIsFav] = useState(false);
+  const { videoId } = useParams();
+
+  const { videoList: videos } = useMockedVideos();
+  // const { videos, fetchVideos } = useYTSearch();
+
+  // useEffect(() => {
+  //   const lastSearch = storage.get('search').last;
+  //   fetchVideos(lastSearch);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const handleFavClick = () => {
     setIsFav((prev) => !prev);
+  };
+
+  const ShowRelatedVideos = () => {
+    return videos.map((vid) => <VideoTile key={vid.id.videoId} video={vid} />);
   };
 
   return (
@@ -67,15 +92,14 @@ export default function VideoDetails() {
         <VideoFrame
           title="video"
           width="100%"
-          src="https://www.youtube.com/embed/pVYpGSgtG_I"
+          src={`https://www.youtube.com/embed/${videoId}`}
           allow="accelerometer; fullscreen; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
         />
         <VideoInfo>
           <Row>
             <h2>Video Title</h2>
             <FavButton onClick={handleFavClick}>
-              <FavoriteIcon width="2em" active={isFav} /> Agregar a favoritos
+              <FavoriteIcon width="2em" active={isFav} /> Favorites
             </FavButton>
           </Row>
           <h4>Channel Name</h4>
@@ -85,7 +109,7 @@ export default function VideoDetails() {
           </p>
         </VideoInfo>
       </VideoSection>
-      <RecomendedSection>Recomendations</RecomendedSection>
+      <ListSection>{videos?.length > 0 && <ShowRelatedVideos />}</ListSection>
     </VideoGrid>
   );
 }

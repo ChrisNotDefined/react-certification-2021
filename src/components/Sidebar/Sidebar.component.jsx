@@ -35,7 +35,7 @@ const Overlay = styled.div`
 `;
 
 const Drawer = styled.aside`
-  --sidebarWidth: max(250px, 25vw);
+  --sidebarWidth: max(250px, 20vw);
   position: fixed;
   top: 0;
   width: var(--sidebarWidth);

@@ -13,6 +13,12 @@ describe('Html Decoding', () => {
     expect(result).toBe('Hello World');
   });
 
+  it('Manages named encoding', () => {
+    const result = fromHtmlEntities('Drum &amp; Bass');
+
+    expect(result).toBe('Drum & Bass');
+  });
+
   it('Unexpected value returns null', () => {
     const result = fromHtmlEntities(23);
 

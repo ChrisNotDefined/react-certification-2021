@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import VideoCard from '../../components/VideoCard';
+import { useMockedVideos } from '../../utils/hooks/useMockedVideos';
 import { useYTSearch } from '../../utils/hooks/useYTSearch';
 import { fromHtmlEntities } from '../../utils/strings';
 
@@ -19,37 +20,37 @@ const VideoList = styled.section`
   }
 `;
 
-function HomePage() {
-  const [videoList, setVideoList] = useState([]);
+const getDataForCard = (video) => {
+  return {
+    id: video.id.videoId || video.id.channelId,
+    channelTitle: fromHtmlEntities(video.snippet.channelTitle),
+    description: fromHtmlEntities(video.snippet.description),
+    publishedAt: video.snippet.publishedAt,
+    thumbnails: video.snippet.thumbnails,
+    title: fromHtmlEntities(video.snippet.title),
+  };
+};
 
-  useEffect(() => {
-    fetch('mocks/youtube-videos-mock.json')
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data) return;
-        const videos = data.items.map((vid) => {
-          return {
-            etag: vid.etag,
-            channelTitle: fromHtmlEntities(vid.snippet.channelTitle),
-            description: fromHtmlEntities(vid.snippet.description),
-            publishedAt: vid.snippet.publishedAt,
-            thumbnail: vid.snippet.thumbnails.medium.url,
-            title: fromHtmlEntities(vid.snippet.title),
-          };
-        });
-        setVideoList(videos);
-      });
-  }, []);
+function HomePage() {
+  const { videoList } = useMockedVideos(getDataForCard);
 
   const { videos } = useYTSearch();
+
+  const MockedVideos = () => {
+    return videoList.map((e) => <VideoCard key={e.id} videoObj={e} />);
+  };
+
+  const SearchedVideos = () => {
+    return videos.map((v) => {
+      const vid = getDataForCard(v);
+      return <VideoCard key={vid.id} videoObj={vid} />;
+    });
+  };
+
   return (
     <VideoList>
-      {videos.map((e) => (
-        <div key={e}>{e}</div>
-      ))}
-      {videoList.map((e) => (
-        <VideoCard key={e.etag} videoObj={e} />
-      ))}
+      {videos.length > 0 && <SearchedVideos />}
+      <MockedVideos />
     </VideoList>
   );
 }

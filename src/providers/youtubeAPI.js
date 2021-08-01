@@ -25,6 +25,11 @@ export const queryVideos = async ({ keyword, pageToken, maxResults = 10 }) => {
       },
     });
 
+    if (response.status !== 200) {
+      console.log('Failed with status: ', response.status);
+      console.error(response.body);
+    }
+
     const videoData = await response.json();
     return videoData;
   } catch (error) {

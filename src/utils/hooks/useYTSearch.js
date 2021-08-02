@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import {
   loadEnded,
   loadStart,
@@ -6,31 +6,42 @@ import {
   newData,
 } from '../../providers/SearchContext';
 import { queryVideos } from '../../providers/youtubeAPI';
+import { useMockedVideos } from './useMockedVideos';
 
 const useYTSearch = () => {
   const [error, setError] = useState(null);
 
-  const { searchValues, dispatch } = useContext(SearchContext);
+  const { searchState, dispatch } = useContext(SearchContext);
 
-  const fetchVideos = async (query) => {
-    dispatch(loadStart());
-    try {
-      // const fetchedData = {
-      //   items: [...videoList],
-      //   prevPageToken: 'prev',
-      //   nextPageToken: 'next',
-      // };
-      const fetchedData = await queryVideos({ keyword: query });
-      dispatch(newData(fetchedData));
-    } catch (err) {
-      setError(err);
-    } finally {
-      dispatch(loadEnded());
-    }
-  };
+  const { videoList } = useMockedVideos();
+
+  const fetchVideos = useMemo(
+    () => async (query) => {
+      if (!query) {
+        console.log('No query');
+        return;
+      }
+      dispatch(loadStart());
+      try {
+        const fetchedData = (await queryVideos({ keyword: query })) || videoList;
+        console.log('Called api');
+        if (fetchedData !== null)
+          dispatch(newData(!fetchedData.items ? { items: fetchedData } : fetchedData));
+        else {
+          console.log('retrined null');
+        }
+      } catch (err) {
+        setError(err);
+        console.error('Use YT Search', err);
+      } finally {
+        dispatch(loadEnded());
+      }
+    },
+    [dispatch, videoList]
+  );
 
   return {
-    ...searchValues,
+    ...searchState,
     error,
     fetchVideos,
   };

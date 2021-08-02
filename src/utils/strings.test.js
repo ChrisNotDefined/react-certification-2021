@@ -24,4 +24,10 @@ describe('Html Decoding', () => {
 
     expect(result).toBeNull();
   });
+
+  it('Leaves unknown named entities', () => {
+    const result = fromHtmlEntities('&unknown; Rare char');
+
+    expect(result).toBe('&unknown; Rare char');
+  });
 });

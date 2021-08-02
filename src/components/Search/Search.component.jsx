@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory, useRouteMatch } from 'react-router';
 import styled, { css } from 'styled-components';
 import { useYTSearch } from '../../utils/hooks/useYTSearch';
 import { storage } from '../../utils/storage';
@@ -58,11 +59,18 @@ const SearchButton = styled.button`
 export default function Search() {
   const { fetchVideos } = useYTSearch();
   const [keyword, setKeyword] = useState('');
+  const history = useHistory();
+  const match = useRouteMatch({
+    path: '/',
+    exact: true,
+  });
 
   const handleSubmit = (e) => {
+    console.log('Clicked');
     e.preventDefault();
     if (keyword === '') return;
     storage.set('search', { last: keyword });
+    if (!match) history.replace('/');
     fetchVideos(keyword);
   };
 
@@ -72,7 +80,12 @@ export default function Search() {
 
   return (
     <Wrapper onSubmit={handleSubmit}>
-      <SearchBar value={keyword} onChange={handleInput} placeholder="Search" />
+      <SearchBar
+        aria-label="search"
+        value={keyword}
+        onChange={handleInput}
+        placeholder="Search"
+      />
       <SearchButton>
         <img src="search.svg" alt="search-icon" />
       </SearchButton>

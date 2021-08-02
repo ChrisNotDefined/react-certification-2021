@@ -1,1 +1,1 @@
-export { FavoriteIcon } from './Favorite.Icon';
+export { FavoriteIcon } from './Favorite';

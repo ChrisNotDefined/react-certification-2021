@@ -1,11 +1,12 @@
 import { cleanup, render } from '@testing-library/react';
 import React from 'react';
+import { MemoryRouter } from 'react-router';
 import { SearchProvider } from '../../providers/SearchContext';
 import * as hooks from '../../utils/hooks/useYTSearch';
-import HomePage from './Home.page';
+import VideoPage from './Video.page';
 
-describe('Home component', () => {
-  const mockVideos = [
+describe('Video Page', () => {
+  const mockVideo = [
     {
       kind: 'youtube#searchResult',
       etag: '_PVKwNJf_qw9nukFeRFOtQ837o0',
@@ -75,52 +76,32 @@ describe('Home component', () => {
     },
   ];
 
-  const renderNode = () => {
-    return render(
+  const renderNode = () =>
+    render(
       <SearchProvider>
-        <HomePage />
+        <MemoryRouter>
+          <VideoPage />
+        </MemoryRouter>
       </SearchProvider>
     );
-  };
-
-  beforeAll(() => {
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: jest.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(), // Deprecated
-        removeListener: jest.fn(), // Deprecated
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      })),
-    });
-  });
 
   afterEach(cleanup);
 
-  it('Has a section element', () => {
-    const { container } = renderNode();
+  it('Renders the video section', () => {
+    const node = renderNode();
+    const iframe = node.container.querySelector('iframe');
 
-    expect(container.querySelector('section')).not.toBeUndefined();
+    expect(iframe).not.toBeUndefined();
   });
 
-  it('Renders empty if there is no videos', () => {
-    const wrapper = renderNode();
-
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it('Renders the video list when here are videos loaded', () => {
+  it('Renders the video list', () => {
     hooks.useYTSearch = jest.fn(() => ({
-      videos: mockVideos,
+      videos: mockVideo,
+      selectedVideo: mockVideo[0],
+      fetchVideos: jest.fn(),
     }));
 
     const node = renderNode();
-
-    const elements = node.getAllByAltText(/thumbnail/i);
-    expect(elements.length).toBeGreaterThan(0);
+    expect(node.getAllByAltText(/tile/gi).length).toBeGreaterThanOrEqual(1);
   });
 });

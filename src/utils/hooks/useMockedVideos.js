@@ -1,22 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-const useMockedVideos = (dataTransformer) => {
+const useMockedVideos = () => {
   const [videoList, setVideoList] = useState([]);
+  const [error, setError] = useState(null);
+
+  const callToApi = useCallback(async () => {
+    console.log('useMock useEffect');
+    try {
+      const res = await fetch('mocks/youtube-videos-mock.json');
+      const data = await res.json();
+      setVideoList(data);
+    } catch (err) {
+      setError(err);
+    }
+  }, []);
 
   useEffect(() => {
-    console.log('Calling mock');
-    fetch('mocks/youtube-videos-mock.json')
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data) return;
-        const videos = data.items.map((vid) =>
-          dataTransformer ? dataTransformer(vid) : vid
-        );
-        setVideoList(videos);
-      });
-  }, [dataTransformer]);
+    callToApi();
+  }, [callToApi]);
 
-  return { videoList };
+  return { videoList, error };
 };
 
 export { useMockedVideos };

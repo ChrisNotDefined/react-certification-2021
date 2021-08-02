@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
+import { SearchContext, selectedVideo } from '../../providers/SearchContext';
 import { fromHtmlEntities } from '../../utils/strings';
 
-const Container = styled.div`
+export const Container = styled.div`
   background-color: white;
   box-shadow: 0 1px 2px #0002;
   border-radius: 5px;
@@ -15,6 +16,10 @@ const Container = styled.div`
   gap: 0.5em;
   cursor: pointer;
   transition: background-color 200ms;
+
+  @media (max-width: 850px) {
+    height: 8em;
+  }
 
   :hover {
     background-color: #eee;
@@ -53,14 +58,19 @@ const Subtitle = styled.p`
 
 export default function VideoTile({ video }) {
   const history = useHistory();
+  const { dispatch } = useContext(SearchContext);
 
   const handleClick = () => {
     history.push(`video=${video.id.videoId}`);
+    dispatch(selectedVideo(video));
   };
 
   return (
-    <Container key={video.id.videoId} onClick={handleClick}>
-      <Thumbnail src={video.snippet.thumbnails.medium.url} alt={video.snippet.title} />
+    <Container key={video.id.videoId || video.id.channelId} onClick={handleClick}>
+      <Thumbnail
+        src={video.snippet.thumbnails.medium.url}
+        alt={`${video.snippet.title} tile`}
+      />
       <TileData>
         <Title>{fromHtmlEntities(video.snippet.title)}</Title>
         <Subtitle>{fromHtmlEntities(video.snippet.channelTitle)}</Subtitle>

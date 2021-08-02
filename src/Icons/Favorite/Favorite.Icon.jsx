@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import Icon from './Icon.component';
+import Icon from '../Icon.component';
 
 const Svg = styled(Icon)`
   width: ${(props) => props.width || `auto`};
   height: ${(props) => props.height || `auto`};
 `;
 
-export const FavoriteIcon = ({ active, width, height }) => {
+const FavoriteIcon = ({ active, width, height }) => {
   return (
     <Svg x="0px" y="0px" {...{ width, height }} viewBox="0 0 126.729 126.73">
       <path
@@ -21,3 +21,5 @@ export const FavoriteIcon = ({ active, width, height }) => {
     </Svg>
   );
 };
+
+export { FavoriteIcon };

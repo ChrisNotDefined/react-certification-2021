@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import VideoCard from '../../components/VideoCard';
-import { useMockedVideos } from '../../utils/hooks/useMockedVideos';
 import { useYTSearch } from '../../utils/hooks/useYTSearch';
-import { fromHtmlEntities } from '../../utils/strings';
 
 const VideoList = styled.section`
   padding: 1em 4em;
@@ -20,37 +18,44 @@ const VideoList = styled.section`
   }
 `;
 
-const getDataForCard = (video) => {
-  return {
-    id: video.id.videoId || video.id.channelId,
-    channelTitle: fromHtmlEntities(video.snippet.channelTitle),
-    description: fromHtmlEntities(video.snippet.description),
-    publishedAt: video.snippet.publishedAt,
-    thumbnails: video.snippet.thumbnails,
-    title: fromHtmlEntities(video.snippet.title),
-  };
-};
+const EmptySearch = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  color: gray;
+
+  & p {
+    font-size: 2rem;
+  }
+
+  & h2 {
+    font-size: 3rem;
+  }
+`;
 
 function HomePage() {
-  const { videoList } = useMockedVideos(getDataForCard);
-
   const { videos } = useYTSearch();
-
-  const MockedVideos = () => {
-    return videoList.map((e) => <VideoCard key={e.id} videoObj={e} />);
-  };
 
   const SearchedVideos = () => {
     return videos.map((v) => {
-      const vid = getDataForCard(v);
-      return <VideoCard key={vid.id} videoObj={vid} />;
+      return <VideoCard key={v.id.videoId || v.id.channelId} videoObj={v} />;
     });
   };
 
+  if (!videos || videos.length === 0) {
+    return (
+      <EmptySearch>
+        <h2>Welcome</h2>
+        <p>Use the Search bar to start looking for videos</p>
+      </EmptySearch>
+    );
+  }
+
   return (
     <VideoList>
-      {videos.length > 0 && <SearchedVideos />}
-      <MockedVideos />
+      <SearchedVideos />
     </VideoList>
   );
 }

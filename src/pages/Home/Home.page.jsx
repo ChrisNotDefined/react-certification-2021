@@ -1,38 +1,51 @@
-import React, { useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import VideoCard from '../../components/VideoCard';
+import { fromHtmlEntities } from '../../utils/strings';
 
-import { useAuth } from '../../providers/Auth';
-import './Home.styles.css';
+const VideoList = styled.section`
+  padding: 1em 4em;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1em;
+
+  @media (max-width: 1000px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 650px) {
+    padding: 1em;
+    grid-template-columns: 1fr;
+  }
+`;
 
 function HomePage() {
-  const history = useHistory();
-  const sectionRef = useRef(null);
-  const { authenticated, logout } = useAuth();
+  const [videoList, setVideoList] = useState([]);
 
-  function deAuthenticate(event) {
-    event.preventDefault();
-    logout();
-    history.push('/');
-  }
+  useEffect(() => {
+    fetch('mocks/youtube-videos-mock.json')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data) return;
+        const videos = data.items.map((vid) => {
+          return {
+            etag: vid.etag,
+            channelTitle: fromHtmlEntities(vid.snippet.channelTitle),
+            description: fromHtmlEntities(vid.snippet.description),
+            publishedAt: vid.snippet.publishedAt,
+            thumbnail: vid.snippet.thumbnails.medium.url,
+            title: fromHtmlEntities(vid.snippet.title),
+          };
+        });
+        setVideoList(videos);
+      });
+  }, []);
 
   return (
-    <section className="homepage" ref={sectionRef}>
-      <h1>Hello stranger!</h1>
-      {authenticated ? (
-        <>
-          <h2>Good to have you back</h2>
-          <span>
-            <Link to="/" onClick={deAuthenticate}>
-              ← logout
-            </Link>
-            <span className="separator" />
-            <Link to="/secret">show me something cool →</Link>
-          </span>
-        </>
-      ) : (
-        <Link to="/login">let me in →</Link>
-      )}
-    </section>
+    <VideoList>
+      {videoList.map((e) => (
+        <VideoCard key={e.etag} videoObj={e} />
+      ))}
+    </VideoList>
   );
 }
 

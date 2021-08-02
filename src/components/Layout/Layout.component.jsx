@@ -1,9 +1,13 @@
 import React from 'react';
+import styled from 'styled-components';
 
-import './Layout.styles.css';
+const Container = styled.main`
+  min-height: calc(100vh - 64px);
+  box-sizing: border-box;
+`;
 
 function Layout({ children }) {
-  return <main className="container">{children}</main>;
+  return <Container>{children}</Container>;
 }
 
 export default Layout;

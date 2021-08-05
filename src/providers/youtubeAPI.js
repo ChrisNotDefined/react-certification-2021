@@ -29,7 +29,7 @@ export const queryVideos = async ({ keyword, maxResults = 18 }) => {
 
     const videoData = await response.json();
 
-    if (response.status !== 200 || videoData.error) {
+    if (response.status !== 200) {
       if (videoData.error) {
         console.error('JSON: ', videoData.error);
         throw new Error(`Code ${response.status}: ${videoData.error}`);

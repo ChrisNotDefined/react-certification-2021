@@ -3,17 +3,16 @@ import { useParams } from 'react-router';
 import styled from 'styled-components';
 import VideoInfo from '../../components/VideoInfo';
 import VideoTile from '../../components/VideoTile/VideoTile.component';
-import { useYTSearch } from '../../utils/hooks/useYTSearch';
+import { useSearchContext } from '../../providers/SearchContext';
 import { storage } from '../../utils/storage';
 
 const VideoGrid = styled.section`
   display: grid;
-  grid-template-columns: 2.5fr 1fr;
+  grid-template-columns: 2fr 1fr;
   min-height: calc(100vh - 64px);
-  align-items: stretch;
 
-  @media (max-width: 1280px) {
-    grid-template-columns: 2fr 1fr;
+  @media (max-width: 1080px) {
+    grid-template-columns: 2fr 1.5fr;
   }
 
   @media (max-width: 850px) {
@@ -24,6 +23,8 @@ const VideoGrid = styled.section`
 const VideoSection = styled.section`
   background-color: var(--primary);
   padding: 1em;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ListSection = styled.section`
@@ -44,30 +45,32 @@ const ListSection = styled.section`
   }
 
   @media (min-width: 850px) {
-    max-height: calc(100vh - 64px);
+    height: calc(100vh - 64px);
     overflow-y: auto;
   }
 `;
 
 const VideoFrame = styled.iframe`
   background-color: black;
-  /* min-height: 300px; */
+  max-height: max(30vw, 50vh);
   aspect-ratio: 16 / 9;
+  align-self: center;
   border: none;
 `;
 
 export default function VideoPage() {
   const { videoId } = useParams();
 
-  const { videos, selectedVideo, fetchVideos } = useYTSearch();
+  const { search, selected, result } = useSearchContext();
+  const videos = result?.items;
 
   useEffect(() => {
-    if (videos?.length === 0) {
+    if (!videos || videos?.length === 0) {
       console.log('Videopage useEffct');
       const lastSearch = storage.get('search')?.last || 'wizeline';
-      fetchVideos(lastSearch);
+      search({ keyword: lastSearch });
     }
-  }, [videos.length, fetchVideos]);
+  }, [videos, search]);
 
   const ShowRelatedVideos = () => {
     return videos.map((vid) => (
@@ -84,7 +87,7 @@ export default function VideoPage() {
           src={`https://www.youtube.com/embed/${videoId}`}
           allow="accelerometer; fullscreen; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         />
-        {selectedVideo && <VideoInfo selectedVideo={selectedVideo} />}
+        {selected && <VideoInfo selectedVideo={selected} />}
       </VideoSection>
       <ListSection>{videos?.length > 0 && <ShowRelatedVideos />}</ListSection>
     </VideoGrid>

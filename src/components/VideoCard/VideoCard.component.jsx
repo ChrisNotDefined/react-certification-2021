@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { SearchContext, selectedVideo } from '../../providers/SearchContext';
+import { useSearchContext } from '../../providers/SearchContext';
 import { useMediaQuery } from '../../utils/hooks/useMediaQuery';
 import { fromHtmlEntities } from '../../utils/strings';
 
@@ -68,7 +68,8 @@ export default function VideoCard({ videoObj }) {
   const gt700px = useMediaQuery('(min-width: 700px)');
   const gt500px = useMediaQuery('(min-width: 500px)');
   const history = useHistory();
-  const { dispatch } = useContext(SearchContext);
+  // const { dispatch } = useContext(SearchContext);
+  const { select } = useSearchContext();
   const v = getDataForCard(videoObj);
 
   const decideImg = () => {
@@ -88,7 +89,8 @@ export default function VideoCard({ videoObj }) {
 
   const navigateToVideo = () => {
     history.push(`/video=${v.id}`);
-    dispatch(selectedVideo(videoObj));
+    // dispatch(videoSelected(videoObj));
+    select(videoObj);
   };
 
   if (v === null) return <div>There is no info to render</div>;

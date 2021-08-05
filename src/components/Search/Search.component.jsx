@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router';
 import styled, { css } from 'styled-components';
-import { useYTSearch } from '../../utils/hooks/useYTSearch';
+import { useSearchContext } from '../../providers/SearchContext';
 import { storage } from '../../utils/storage';
 
 const Wrapper = styled.form`
@@ -57,7 +57,8 @@ const SearchButton = styled.button`
 `;
 
 export default function Search() {
-  const { fetchVideos } = useYTSearch();
+  // const { fetchVideos } = useYTSearch();
+  const { search } = useSearchContext();
   const [keyword, setKeyword] = useState('');
   const history = useHistory();
   const match = useRouteMatch({
@@ -66,12 +67,11 @@ export default function Search() {
   });
 
   const handleSubmit = (e) => {
-    console.log('Clicked');
     e.preventDefault();
     if (keyword === '') return;
     storage.set('search', { last: keyword });
     if (!match) history.replace('/');
-    fetchVideos(keyword);
+    search({ keyword });
   };
 
   const handleInput = (e) => {

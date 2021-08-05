@@ -2,11 +2,11 @@ import { cleanup, render } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { SearchProvider } from '../../providers/SearchContext';
-import * as hooks from '../../utils/hooks/useYTSearch';
+import * as hooks from '../../providers/SearchContext';
 import VideoPage from './Video.page';
 
 describe('Video Page', () => {
-  const mockVideo = [
+  const mockVideos = [
     {
       kind: 'youtube#searchResult',
       etag: '_PVKwNJf_qw9nukFeRFOtQ837o0',
@@ -95,10 +95,10 @@ describe('Video Page', () => {
   });
 
   it('Renders the video list', () => {
-    hooks.useYTSearch = jest.fn(() => ({
-      videos: mockVideo,
-      selectedVideo: mockVideo[0],
-      fetchVideos: jest.fn(),
+    hooks.useSearchContext = jest.fn(() => ({
+      result: { items: mockVideos },
+      selected: mockVideos[0],
+      search: jest.fn(),
     }));
 
     const node = renderNode();

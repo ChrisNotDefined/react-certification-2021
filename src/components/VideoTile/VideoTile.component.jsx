@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { SearchContext, selectedVideo } from '../../providers/SearchContext';
+import { useSearchContext } from '../../providers/SearchContext';
 import { fromHtmlEntities } from '../../utils/strings';
 
 export const Container = styled.div`
@@ -40,7 +40,6 @@ const Title = styled.span`
   border-bottom: solid 2px var(--primary);
   line-height: 1.1em;
   margin: 0;
-  /* padding-bottom: 5px; */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -58,11 +57,11 @@ const Subtitle = styled.p`
 
 export default function VideoTile({ video }) {
   const history = useHistory();
-  const { dispatch } = useContext(SearchContext);
+  const { select } = useSearchContext();
 
   const handleClick = () => {
     history.push(`video=${video.id.videoId}`);
-    dispatch(selectedVideo(video));
+    select(video);
   };
 
   return (

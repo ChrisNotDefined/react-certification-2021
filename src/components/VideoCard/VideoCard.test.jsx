@@ -176,7 +176,6 @@ describe('VideoCard component', () => {
       value: jest.fn().mockImplementation((query) => ({
         matches: (() => {
           const value = Number(query.match(/\d+/gm)[0]);
-          console.log(value);
           return value >= screenWidth;
         })(),
         media: query,

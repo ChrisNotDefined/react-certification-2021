@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import VideoCard from '../../components/VideoCard';
-import { useYTSearch } from '../../utils/hooks/useYTSearch';
+import { useSearchContext } from '../../providers/SearchContext';
 
 const VideoList = styled.section`
   padding: 1em 4em;
@@ -28,6 +28,7 @@ const EmptySearch = styled.section`
 
   & p {
     font-size: 2rem;
+    text-align: center;
   }
 
   & h2 {
@@ -36,7 +37,8 @@ const EmptySearch = styled.section`
 `;
 
 function HomePage() {
-  const { videos } = useYTSearch();
+  const { result } = useSearchContext();
+  const videos = result?.items;
 
   const SearchedVideos = () => {
     return videos.map((v) => {

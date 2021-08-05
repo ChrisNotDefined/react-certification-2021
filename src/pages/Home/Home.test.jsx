@@ -1,7 +1,7 @@
 import { cleanup, render } from '@testing-library/react';
 import React from 'react';
 import { SearchProvider } from '../../providers/SearchContext';
-import * as hooks from '../../utils/hooks/useYTSearch';
+import * as hooks from '../../providers/SearchContext';
 import HomePage from './Home.page';
 
 describe('Home component', () => {
@@ -113,9 +113,9 @@ describe('Home component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('Renders the video list when here are videos loaded', () => {
-    hooks.useYTSearch = jest.fn(() => ({
-      videos: mockVideos,
+  it('Renders the video list when there are videos loaded', () => {
+    hooks.useSearchContext = jest.fn(() => ({
+      result: { items: mockVideos },
     }));
 
     const node = renderNode();

@@ -68,7 +68,7 @@ const Start = styled(Section)`
 const End = styled(Section)`
   justify-content: flex-end;
 
-  @media (max-width: 500px) {
+  @media (max-width: 700px) {
     display: none;
   }
 `;

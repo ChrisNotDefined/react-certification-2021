@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import VideoCard from '../../components/VideoCard';
-import { fromHtmlEntities } from '../../utils/strings';
+import { useSearchContext } from '../../providers/SearchContext';
 
 const VideoList = styled.section`
   padding: 1em 4em;
@@ -18,33 +18,46 @@ const VideoList = styled.section`
   }
 `;
 
-function HomePage() {
-  const [videoList, setVideoList] = useState([]);
+const EmptySearch = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  color: gray;
 
-  useEffect(() => {
-    fetch('mocks/youtube-videos-mock.json')
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data) return;
-        const videos = data.items.map((vid) => {
-          return {
-            etag: vid.etag,
-            channelTitle: fromHtmlEntities(vid.snippet.channelTitle),
-            description: fromHtmlEntities(vid.snippet.description),
-            publishedAt: vid.snippet.publishedAt,
-            thumbnail: vid.snippet.thumbnails.medium.url,
-            title: fromHtmlEntities(vid.snippet.title),
-          };
-        });
-        setVideoList(videos);
-      });
-  }, []);
+  & p {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  & h2 {
+    font-size: 3rem;
+  }
+`;
+
+function HomePage() {
+  const { result } = useSearchContext();
+  const videos = result?.items;
+
+  const SearchedVideos = () => {
+    return videos.map((v) => {
+      return <VideoCard key={v.id.videoId || v.id.channelId} videoObj={v} />;
+    });
+  };
+
+  if (!videos || videos.length === 0) {
+    return (
+      <EmptySearch>
+        <h2>Welcome</h2>
+        <p>Use the Search bar to start looking for videos</p>
+      </EmptySearch>
+    );
+  }
 
   return (
     <VideoList>
-      {videoList.map((e) => (
-        <VideoCard key={e.etag} videoObj={e} />
-      ))}
+      <SearchedVideos />
     </VideoList>
   );
 }

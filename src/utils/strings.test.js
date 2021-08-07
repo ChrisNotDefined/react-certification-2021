@@ -13,9 +13,21 @@ describe('Html Decoding', () => {
     expect(result).toBe('Hello World');
   });
 
+  it('Manages named encoding', () => {
+    const result = fromHtmlEntities('Drum &amp; Bass');
+
+    expect(result).toBe('Drum & Bass');
+  });
+
   it('Unexpected value returns null', () => {
     const result = fromHtmlEntities(23);
 
     expect(result).toBeNull();
+  });
+
+  it('Leaves unknown named entities', () => {
+    const result = fromHtmlEntities('&unknown; Rare char');
+
+    expect(result).toBe('&unknown; Rare char');
   });
 });

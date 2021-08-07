@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory, useRouteMatch } from 'react-router';
 import styled, { css } from 'styled-components';
+import { useSearchContext } from '../../providers/SearchContext';
+import { storage } from '../../utils/storage';
 
-const Wrapper = styled.div`
+const Wrapper = styled.form`
   box-shadow: 0 2px 2px #0005;
   display: flex;
   max-width: 50ch;
@@ -54,9 +57,35 @@ const SearchButton = styled.button`
 `;
 
 export default function Search() {
+  // const { fetchVideos } = useYTSearch();
+  const { search } = useSearchContext();
+  const [keyword, setKeyword] = useState('');
+  const history = useHistory();
+  const match = useRouteMatch({
+    path: '/',
+    exact: true,
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (keyword === '') return;
+    storage.set('search', { last: keyword });
+    if (!match) history.replace('/');
+    search({ keyword });
+  };
+
+  const handleInput = (e) => {
+    setKeyword(e.target.value);
+  };
+
   return (
-    <Wrapper>
-      <SearchBar placeholder="Search" />
+    <Wrapper onSubmit={handleSubmit}>
+      <SearchBar
+        aria-label="search"
+        value={keyword}
+        onChange={handleInput}
+        placeholder="Search"
+      />
       <SearchButton>
         <img src="search.svg" alt="search-icon" />
       </SearchButton>

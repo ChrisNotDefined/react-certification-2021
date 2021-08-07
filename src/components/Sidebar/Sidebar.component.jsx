@@ -15,7 +15,7 @@ const Overlay = styled.div`
   left: 0;
   height: 100vh;
   width: 100vw;
-  transition: ${trnsMsDuration}ms;
+  transition: opacity ${trnsMsDuration}ms;
 
   &.${transitionClass}-enter {
     opacity: 0;
@@ -35,9 +35,10 @@ const Overlay = styled.div`
 `;
 
 const Drawer = styled.aside`
+  --sidebarWidth: max(250px, 20vw);
   position: fixed;
   top: 0;
-  width: 300px;
+  width: var(--sidebarWidth);
   height: 100vh;
   z-index: 11;
   background-color: white;
@@ -45,7 +46,7 @@ const Drawer = styled.aside`
   transition: transform ${trnsMsDuration}ms;
 
   &.${transitionClass}-enter {
-    transform: translateX(-300px);
+    transform: translateX(calc(var(--sidebarWidth) * -1));
   }
 
   &.${transitionClass}-enter-active {
@@ -57,7 +58,7 @@ const Drawer = styled.aside`
   }
 
   &.${transitionClass}-exit-active {
-    transform: translateX(-300px);
+    transform: translateX(calc(var(--sidebarWidth) * -1));
   }
 `;
 

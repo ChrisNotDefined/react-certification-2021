@@ -1,19 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Home component Renders a list of videos 1`] = `
+exports[`Home component Renders empty if there is no videos 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
       <section
-        class="sc-jSFjdj cQerAO"
-      />
+        class="sc-gKAaRy hLtllV"
+      >
+        <h2>
+          Welcome
+        </h2>
+        <p>
+          Use the Search bar to start looking for videos
+        </p>
+      </section>
     </div>
   </body>,
   "container": <div>
     <section
-      class="sc-jSFjdj cQerAO"
-    />
+      class="sc-gKAaRy hLtllV"
+    >
+      <h2>
+        Welcome
+      </h2>
+      <p>
+        Use the Search bar to start looking for videos
+      </p>
+    </section>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

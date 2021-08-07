@@ -1,11 +1,12 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
+import { decideTheme } from '../../globalStyles';
 import { useSearchContext } from '../../providers/SearchContext';
 import { fromHtmlEntities } from '../../utils/strings';
 
 export const Container = styled.div`
-  background-color: white;
+  background-color: ${decideTheme('white', 'var(--paperDark)')};
   box-shadow: 0 1px 2px #0002;
   border-radius: 5px;
   height: 6em;
@@ -22,7 +23,7 @@ export const Container = styled.div`
   }
 
   :hover {
-    background-color: #eee;
+    background-color: ${decideTheme('#eee', '#444')};
   }
 `;
 
@@ -33,10 +34,11 @@ const Thumbnail = styled.img`
 `;
 
 const TileData = styled.div`
+  color: ${decideTheme('inherit', 'var(--textDark)')};
   width: 100%;
 `;
 
-const Title = styled.span`
+const Title = styled.div`
   border-bottom: solid 2px var(--primary);
   line-height: 1.1em;
   margin: 0;

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useThemeContext } from '../../providers/ThemeContext';
 import Avatar from '../Avatar';
 import Search from '../Search';
 import Toggler from '../Toggler/Toggler.component';
@@ -15,6 +16,7 @@ const Bar = styled.nav`
   top: 0;
   z-index: 2;
   background: linear-gradient(125deg, var(--primary) 0%, var(--accent) 100%);
+  transition: background 200ms;
 `;
 
 const MenuButton = styled.button`
@@ -68,13 +70,13 @@ const Start = styled(Section)`
 const End = styled(Section)`
   justify-content: flex-end;
 
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
     display: none;
   }
 `;
 
 function Navbar({ showSidebar }) {
-  const darkTheme = false;
+  const { darkTheme, toogleTheme } = useThemeContext();
 
   return (
     <Bar>
@@ -87,7 +89,7 @@ function Navbar({ showSidebar }) {
         <Search />
       </CenteredAndExpanded>
       <End>
-        <Toggler checked={darkTheme} label="Dark Mode" />
+        <Toggler checked={darkTheme} onChange={toogleTheme} label="Dark Mode" />
         <Avatar />
       </End>
     </Bar>

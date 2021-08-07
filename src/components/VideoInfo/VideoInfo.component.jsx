@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { decideTheme } from '../../globalStyles';
 import { FavoriteIcon } from '../../Icons';
 import { fromHtmlEntities } from '../../utils/strings';
 
 const Container = styled.div`
-  color: white;
+  color: ${decideTheme('white', 'var(--textDark)')};
 `;
 
 const Row = styled.div`
@@ -31,7 +32,7 @@ const VideoDesc = styled.p`
 `;
 
 const FavButton = styled.button`
-  color: white;
+  color: ${decideTheme('white', 'var(--textDark)')};
   font-size: 0.8rem;
   border: none;
   border-radius: 5px;

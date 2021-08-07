@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useCallback, useContext, useState } from 'react';
 import { useYoutube } from '../utils/hooks/useYoutube';
 import { storage } from '../utils/storage';
 
@@ -13,10 +13,10 @@ export const SearchProvider = ({ children }) => {
     storage.get('selectedVideo') || null
   );
 
-  const selectVideo = (video) => {
+  const selectVideo = useCallback((video) => {
     storage.set('selectedVideo', video);
     setSelectedVideo(video);
-  };
+  }, []);
 
   return (
     <SearchContext.Provider

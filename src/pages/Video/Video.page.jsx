@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import styled from 'styled-components';
 import VideoInfo from '../../components/VideoInfo';
 import VideoTile from '../../components/VideoTile/VideoTile.component';
+import { decideTheme } from '../../globalStyles';
 import { useSearchContext } from '../../providers/SearchContext';
 import { storage } from '../../utils/storage';
 
@@ -21,22 +22,23 @@ const VideoGrid = styled.section`
 `;
 
 const VideoSection = styled.section`
-  background-color: var(--primary);
+  background-color: ${decideTheme('var(--primary)', 'var(--paperDark)')};
   padding: 1em;
   display: flex;
   flex-direction: column;
+  transition: background-color 200ms;
 `;
 
 const ListSection = styled.section`
-  background-color: var(--accent);
+  background-color: ${decideTheme('var(--accent)', 'var(--baseDark)')};
 
   &::-webkit-scrollbar {
     width: 1ch;
-    background-color: var(--accent-brighter);
+    background-color: ${decideTheme('var(--accent-brighter)', 'var(--paperDark)')};
   }
 
   &::-webkit-scrollbar-thumb {
-    border: 2px solid var(--accent-brighter);
+    border: 2px solid ${decideTheme('var(--accent-brighter)', 'var(--paperDark)')};
     background-color: var(--primary);
 
     :hover {

@@ -1,6 +1,9 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
+import { decideTheme } from '../../globalStyles';
+import { useThemeContext } from '../../providers/ThemeContext';
 import Avatar from '../Avatar';
 import Toggler from '../Toggler/Toggler.component';
 
@@ -41,9 +44,10 @@ const Drawer = styled.aside`
   width: var(--sidebarWidth);
   height: 100vh;
   z-index: 11;
-  background-color: white;
   box-shadow: 2px 0 2px #0002;
-  transition: transform ${trnsMsDuration}ms;
+  color: ${decideTheme('inherit', 'var(--textDark)')};
+  background-color: ${decideTheme('white', 'var(--baseDark)')};
+  transition: transform ${trnsMsDuration}ms, background-color 200ms;
 
   &.${transitionClass}-enter {
     transform: translateX(calc(var(--sidebarWidth) * -1));
@@ -101,24 +105,33 @@ const HeadingAction = styled.button`
   }
 `;
 
-const Option = styled.li`
+const Option = styled(NavLink)`
+  color: inherit;
+  display: block;
   border-bottom: solid 4px var(--primary);
-  padding: 1em;
+  padding: 0.7em 1em;
   transition: 100ms;
   user-select: none;
+  cursor: pointer;
 
   :hover {
-    background: #0001;
+    background: ${decideTheme('#0001', '#fff1')};
   }
 
   :active {
-    background: #0002;
+    background: ${decideTheme('#0002', '#fff2')};
+  }
+
+  &.active {
+    font-weight: bold;
+    color: ${decideTheme('black', 'white')};
   }
 `;
 
 export default function Sidebar({ showing, onClose }) {
   const overlayRef = React.useRef(null);
   const drawerRef = React.useRef(null);
+  const { darkTheme, toogleTheme } = useThemeContext();
 
   return (
     <>
@@ -143,12 +156,14 @@ export default function Sidebar({ showing, onClose }) {
             <Avatar size="5em" />
             <HeadingActions>
               <HeadingAction>Iniciar Sesión</HeadingAction>
-              <Toggler label="Dark Mode" />
+              <Toggler onChange={toogleTheme} checked={darkTheme} label="Dark Mode" />
             </HeadingActions>
           </Heading>
           <ul>
-            <Option>Home</Option>
-            <Option>Favorites</Option>
+            <Option onClick={onClose} activeClassName="active" exact to="/">
+              Home
+            </Option>
+            <Option to="/fav">Favorites</Option>
           </ul>
         </Drawer>
       </CSSTransition>

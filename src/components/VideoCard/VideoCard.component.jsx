@@ -4,9 +4,10 @@ import styled from 'styled-components';
 import { useSearchContext } from '../../providers/SearchContext';
 import { useMediaQuery } from '../../utils/hooks/useMediaQuery';
 import { fromHtmlEntities } from '../../utils/strings';
+import { decideTheme } from '../../globalStyles';
 
 const CardBoard = styled.div`
-  background-color: white;
+  background-color: ${decideTheme('white', 'var(--paperDark)')};
   box-shadow: 0 1px 4px 1px #0003;
   margin-bottom: 1em;
   padding: 1em;
@@ -16,7 +17,7 @@ const CardBoard = styled.div`
   transition: background-color 200ms;
 
   :hover {
-    background-color: #eee;
+    background-color: ${decideTheme('#eee', '#444')};
   }
 `;
 
@@ -29,7 +30,7 @@ const CardImage = styled.img`
 `;
 
 const CardContent = styled.p`
-  color: gray;
+  color: ${decideTheme('gray', 'lightgray')};
   font-size: 0.8rem;
   text-overflow: fade;
   max-height: 3em;
@@ -37,6 +38,7 @@ const CardContent = styled.p`
 `;
 
 const CardTitle = styled.h3`
+  color: ${decideTheme('inherit', 'var(--textDark)')};
   font-size: 1.3rem;
   margin-bottom: 0.5rem;
   font-weight: normal;
@@ -68,7 +70,6 @@ export default function VideoCard({ videoObj }) {
   const gt700px = useMediaQuery('(min-width: 700px)');
   const gt500px = useMediaQuery('(min-width: 500px)');
   const history = useHistory();
-  // const { dispatch } = useContext(SearchContext);
   const { select } = useSearchContext();
   const v = getDataForCard(videoObj);
 

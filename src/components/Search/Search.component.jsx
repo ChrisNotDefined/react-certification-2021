@@ -57,7 +57,6 @@ const SearchButton = styled.button`
 `;
 
 export default function Search() {
-  // const { fetchVideos } = useYTSearch();
   const { search } = useSearchContext();
   const [keyword, setKeyword] = useState('');
   const history = useHistory();

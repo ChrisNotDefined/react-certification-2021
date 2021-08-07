@@ -24,7 +24,6 @@ const SwitchElem = styled.div`
   top: 0.5em;
   bottom: 0.5em;
   border-radius: 999em;
-  cursor: pointer;
   box-shadow: inset 0 -2px 2px #0002;
 
   ::before {
@@ -46,18 +45,24 @@ const SwitchElem = styled.div`
 const Container = styled.div`
   display: flex;
   width: fit-content;
-  align-items: stretch;
+  align-items: center;
+
+  &,
+  & label {
+    cursor: pointer;
+  }
 `;
 
 const Label = styled.label`
   margin: auto;
-  transform: translateY(5%);
+  user-select: none;
+  /* transform: translateY(5%); */
 `;
 
 export default function Toggler({ checked, onChange, label }) {
   return (
-    <Container>
-      <Switch onClick={onChange}>
+    <Container onClick={onChange}>
+      <Switch>
         <HtmlInput
           name="check"
           type="checkbox"

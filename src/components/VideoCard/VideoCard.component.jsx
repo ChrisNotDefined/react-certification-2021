@@ -1,56 +1,15 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import styled from 'styled-components';
 import { useSearchContext } from '../../providers/SearchContext';
 import { useMediaQuery } from '../../utils/hooks/useMediaQuery';
 import { fromHtmlEntities } from '../../utils/strings';
-import { decideTheme } from '../../globalStyles';
-
-const CardBoard = styled.div`
-  background-color: ${decideTheme('white', 'var(--paperDark)')};
-  box-shadow: 0 1px 4px 1px #0003;
-  margin-bottom: 1em;
-  padding: 1em;
-  min-width: 30ch;
-  border-radius: 0.2rem;
-  cursor: pointer;
-  transition: background-color 200ms;
-
-  :hover {
-    background-color: ${decideTheme('#eee', '#444')};
-  }
-`;
-
-const CardImage = styled.img`
-  border-radius: 0.4rem;
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border: solid 4px var(--primary);
-`;
-
-const CardContent = styled.p`
-  color: ${decideTheme('gray', 'lightgray')};
-  font-size: 0.8rem;
-  text-overflow: fade;
-  max-height: 3em;
-  overflow-y: hidden;
-`;
-
-const CardTitle = styled.h3`
-  color: ${decideTheme('inherit', 'var(--textDark)')};
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-  font-weight: normal;
-`;
-
-const CardSubtitle = styled.div`
-  color: gray;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.8rem;
-`;
+import {
+  CardBoard,
+  CardContent,
+  CardImage,
+  CardSubtitle,
+  CardTitle,
+} from './VideoCard.styles';
 
 const getDataForCard = (video) => {
   return (
@@ -90,7 +49,6 @@ export default function VideoCard({ videoObj }) {
 
   const navigateToVideo = () => {
     history.push(`/video=${v.id}`);
-    // dispatch(videoSelected(videoObj));
     select(videoObj);
   };
 

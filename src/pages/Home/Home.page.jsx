@@ -1,43 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
 import VideoCard from '../../components/VideoCard';
+import { SpinnerIcon } from '../../Icons';
 import { useSearchContext } from '../../providers/SearchContext';
-
-const VideoList = styled.section`
-  padding: 1em 4em;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1em;
-
-  @media (max-width: 1000px) {
-    grid-template-columns: 1fr 1fr;
-  }
-  @media (max-width: 650px) {
-    padding: 1em;
-    grid-template-columns: 1fr;
-  }
-`;
-
-const EmptySearch = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  color: gray;
-
-  & p {
-    font-size: 2rem;
-    text-align: center;
-  }
-
-  & h2 {
-    font-size: 3rem;
-  }
-`;
+import { EmptySearch, VideoList } from './Home.styles';
 
 function HomePage() {
-  const { result } = useSearchContext();
+  const { result, loading } = useSearchContext();
   const videos = result?.items;
 
   const SearchedVideos = () => {
@@ -45,6 +13,20 @@ function HomePage() {
       return <VideoCard key={v.id.videoId || v.id.channelId} videoObj={v} />;
     });
   };
+
+  if (loading) {
+    return (
+      <EmptySearch>
+        <SpinnerIcon
+          width="3em"
+          primary="var(--primary)"
+          accent="var(--accent-brighter)"
+          animate
+        />
+        <p>Loading...</p>
+      </EmptySearch>
+    );
+  }
 
   if (!videos || videos.length === 0) {
     return (

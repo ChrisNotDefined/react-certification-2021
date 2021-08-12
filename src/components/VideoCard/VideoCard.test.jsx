@@ -1,5 +1,6 @@
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, fireEvent, render } from '@testing-library/react';
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { SearchProvider } from '../../providers/SearchContext';
 import VideoCard from './VideoCard.component';
 import ytMock from '../../mocks/youtube-videos-mock.json';
@@ -12,9 +13,11 @@ describe('VideoCard component', () => {
     const vid = ytMock.items[2];
 
     return render(
-      <SearchProvider>
-        <VideoCard videoObj={vid} />
-      </SearchProvider>
+      <BrowserRouter>
+        <SearchProvider>
+          <VideoCard videoObj={vid} />
+        </SearchProvider>
+      </BrowserRouter>
     );
   };
 
@@ -97,5 +100,12 @@ describe('VideoCard component', () => {
     expect(wrapper.container.querySelector('img').src).toBe(
       mockVideo.snippet.thumbnails.high.url
     );
+  });
+
+  it('Routes to the video page', () => {
+    const elem = wrapper.getByText(mockVideo.snippet.title);
+    fireEvent.click(elem.parentElement);
+
+    expect(window.location.href).toMatch(/video/i);
   });
 });

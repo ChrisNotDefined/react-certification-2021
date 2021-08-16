@@ -19,6 +19,7 @@ const CircleImage = styled.img`
   width: var(--size);
   height: var(--size);
   border-radius: 99em;
+  box-shadow: 0 0 0 2px var(--primary-brighter);
   object-fit: cover;
 
   ${(props) => (props.onClick ? InteractableStyles : '')}

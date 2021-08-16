@@ -14,7 +14,6 @@ export default function VideoPage() {
 
   useEffect(() => {
     if (!videos || videos?.length === 0) {
-      console.log('Videopage useEffct');
       const lastSearch = storage.get('search')?.last || 'wizeline';
       search({ keyword: lastSearch });
     }

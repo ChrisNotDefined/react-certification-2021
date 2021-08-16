@@ -3,6 +3,12 @@ import { fireEvent, render } from '@testing-library/react';
 import App from './App.component';
 
 describe('App component', () => {
+  beforeAll(() => {
+    const modalRoot = document.createElement('div');
+    modalRoot.setAttribute('id', 'modal');
+    document.body.appendChild(modalRoot);
+  });
+
   it('Must always contain the navbar', () => {
     const { container } = render(<App />);
     expect(container.querySelector('nav')).not.toBeUndefined();

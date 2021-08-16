@@ -8,18 +8,27 @@ import HomePage from './Home.page';
 import Navbar from '../../components/Navbar';
 import ytMock from '../../mocks/youtube-videos-mock.json';
 import * as ytAPI from '../../providers/youtubeAPI';
+import { AuthProvider } from '../../providers/AuthContext';
 
 describe('Home component', () => {
+  beforeAll(() => {
+    const modalRoot = document.createElement('div');
+    modalRoot.setAttribute('id', 'modal');
+    document.body.appendChild(modalRoot);
+  });
+
   const mockVideos = ytMock.items;
 
   const renderNode = () => {
     return render(
-      <SearchProvider>
-        <MemoryRouter>
-          <Navbar />
-          <HomePage />
-        </MemoryRouter>
-      </SearchProvider>
+      <AuthProvider>
+        <SearchProvider>
+          <MemoryRouter>
+            <Navbar />
+            <HomePage />
+          </MemoryRouter>
+        </SearchProvider>
+      </AuthProvider>
     );
   };
 

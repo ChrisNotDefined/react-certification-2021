@@ -1,42 +1,63 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router';
 import VideoInfo from '../../components/VideoInfo';
 import VideoTile from '../../components/VideoTile/VideoTile.component';
+import { SpinnerIcon } from '../../Icons';
 import { useSearchContext } from '../../providers/SearchContext';
-import { storage } from '../../utils/storage';
-import { ListSection, VideoFrame, VideoGrid, VideoSection } from './Video.styles';
+import { useRelatedVideos } from '../../utils/hooks/useRelatedVideos';
+import { useVideoDetails } from '../../utils/hooks/useVideoDetails';
+import {
+  Centerer,
+  ListSection,
+  Middle,
+  VideoFrame,
+  VideoGrid,
+  VideoSection,
+} from './Video.styles';
 
 export default function VideoPage() {
   const { videoId } = useParams();
-
-  const { search, selected, result } = useSearchContext();
-  const videos = result?.items;
-
-  useEffect(() => {
-    if (!videos || videos?.length === 0) {
-      const lastSearch = storage.get('search')?.last || 'wizeline';
-      search({ keyword: lastSearch });
-    }
-  }, [videos, search]);
+  const { selected } = useSearchContext();
+  const { related, loading: loadingRelated } = useRelatedVideos({ videoId });
+  const { loading: loadingDescription } = useVideoDetails({ videoId });
 
   const ShowRelatedVideos = () => {
-    return videos.map((vid) => (
-      <VideoTile key={vid.id.videoId || vid.id.channelId} video={vid} />
-    ));
+    if (loadingRelated)
+      return (
+        <Centerer>
+          <SpinnerIcon width="2em" animate />;
+        </Centerer>
+      );
+    return related && related.map((e) => <VideoTile key={e.id.videoId} video={e} />);
+  };
+
+  const VideoPlayer = () => {
+    return (
+      <>
+        <VideoFrame
+          title="video"
+          width="100%"
+          src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+          allow="accelerometer; fullscreen; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        />
+      </>
+    );
   };
 
   return (
     <VideoGrid>
       <VideoSection>
-        <VideoFrame
-          title="video"
-          width="100%"
-          src={`https://www.youtube.com/embed/${videoId}`}
-          allow="accelerometer; fullscreen; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        />
-        {selected && <VideoInfo selectedVideo={selected} />}
+        <VideoPlayer />
+        {loadingDescription && (
+          <Middle>
+            <SpinnerIcon width="3em" animate />
+          </Middle>
+        )}
+        {!loadingDescription && selected && <VideoInfo selectedVideo={selected} />}
       </VideoSection>
-      <ListSection>{videos?.length > 0 && <ShowRelatedVideos />}</ListSection>
+      <ListSection>
+        <ShowRelatedVideos />
+      </ListSection>
     </VideoGrid>
   );
 }

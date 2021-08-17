@@ -20,11 +20,11 @@ const Spinner = styled(Icon)`
     `}
 
   & .primary {
-    fill: ${(props) => props.primary || 'auto'};
+    fill: ${(props) => props.primary || 'var(--primary)'};
   }
 
   & .accent {
-    fill: ${(props) => props.accent || 'auto'};
+    fill: ${(props) => props.accent || 'var(--accent-brighter)'};
   }
 `;
 

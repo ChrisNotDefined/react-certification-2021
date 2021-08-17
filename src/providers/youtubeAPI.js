@@ -1,8 +1,9 @@
 import { API_KEY } from '../keys/YT_KEY';
 
-const baseUrl = new URL(`https://www.googleapis.com/youtube/v3/search`);
+const baseSearchUrl = new URL(`https://www.googleapis.com/youtube/v3/search`);
+const baseVideoUrl = new URL(`https://www.googleapis.com/youtube/v3/videos`);
 
-const callForVideos = async ({ withParams }) => {
+const callForVideos = async ({ withParams, baseUrl = baseSearchUrl }) => {
   const params = {
     key: API_KEY,
     part: 'snippet',
@@ -50,7 +51,7 @@ export const queryVideos = async ({ keyword, maxResults = 18 }) => {
   }
 };
 
-export const queryRelated = async ({ videoId, maxResults = 18 }) => {
+export const queryRelated = async ({ videoId, maxResults = 21 }) => {
   try {
     console.log('API/queryRelated');
     if (!videoId) throw new Error('No videoID provided');
@@ -61,6 +62,21 @@ export const queryRelated = async ({ videoId, maxResults = 18 }) => {
     };
 
     return await callForVideos({ withParams: params });
+  } catch (error) {
+    return null;
+  }
+};
+
+export const queryDetails = async ({ videoId }) => {
+  try {
+    console.log('API/detailVideo');
+    if (!videoId) throw new Error('No videoID provided');
+
+    const params = {
+      id: videoId,
+    };
+
+    return await callForVideos({ withParams: params, baseUrl: baseVideoUrl });
   } catch (error) {
     return null;
   }

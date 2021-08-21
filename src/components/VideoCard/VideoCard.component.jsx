@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import { useSearchContext } from '../../providers/SearchContext';
-import { useMediaQuery } from '../../utils/hooks/useMediaQuery';
+import { useMediaQuery } from '../../utils/hooks';
 import { fromHtmlEntities } from '../../utils/strings';
 import {
   CardBoard,

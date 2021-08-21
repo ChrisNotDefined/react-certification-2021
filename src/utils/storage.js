@@ -10,7 +10,8 @@ const storage = {
   },
 
   set(key, value) {
-    window.localStorage.setItem(key, JSON.stringify(value));
+    const jsonStr = JSON.stringify(value);
+    if (jsonStr) window.localStorage.setItem(key, jsonStr);
   },
 };
 

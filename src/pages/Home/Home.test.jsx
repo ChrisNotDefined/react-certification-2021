@@ -1,9 +1,10 @@
+import firebaseApp from 'firebase/app';
 import { cleanup, fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { SearchProvider } from '../../providers/SearchContext';
 import * as SearchCtx from '../../providers/SearchContext';
-import * as YTHook from '../../utils/hooks/useYoutube';
+import { useYoutube as YTHook } from '../../utils/hooks';
 import HomePage from './Home.page';
 import Navbar from '../../components/Navbar';
 import ytMock from '../../mocks/youtube-videos-mock.json';
@@ -15,6 +16,9 @@ describe('Home component', () => {
     const modalRoot = document.createElement('div');
     modalRoot.setAttribute('id', 'modal');
     document.body.appendChild(modalRoot);
+    jest.mock('firebase/app');
+
+    jest.spyOn(firebaseApp, 'initializeApp').mockImplementation(() => {});
   });
 
   const mockVideos = ytMock.items;

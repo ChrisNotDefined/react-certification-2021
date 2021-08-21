@@ -1,7 +1,8 @@
 import React from 'react';
 import { useAuthContext } from '../../providers/AuthContext';
 import { useThemeContext } from '../../providers/ThemeContext';
-import { useModal } from '../../utils/hooks/useModal';
+import { useModal } from '../../utils/hooks';
+import { generateInitials } from '../../utils/strings';
 import Avatar from '../Avatar';
 import LoginModal from '../LoginModal';
 import Search from '../Search';
@@ -10,7 +11,10 @@ import UserModal from '../UserModal';
 import { Bar, CenteredAndExpanded, End, MenuButton, Start } from './Navbar.styles';
 
 function Navbar({ showSidebar }) {
-  const { user } = useAuthContext();
+  const { creds } = useAuthContext();
+  const photo = creds?.photoURL;
+  const initials = generateInitials(creds?.displayName);
+
   const { darkTheme, toogleTheme } = useThemeContext();
 
   const loginModal = useModal();
@@ -29,8 +33,9 @@ function Navbar({ showSidebar }) {
       <End>
         <Toggler checked={darkTheme} onChange={toogleTheme} label="Dark Mode" />
         <Avatar
-          onClick={user ? userModal.openModal : loginModal.openModal}
-          src={user && user.avatarUrl}
+          initials={creds && !photo && initials}
+          onClick={creds ? userModal.openModal : loginModal.openModal}
+          src={creds && photo}
         />
       </End>
       <LoginModal showModal={loginModal.showModal} onClose={loginModal.onClose} />

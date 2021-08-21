@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
-import { useYoutube } from '../utils/hooks/useYoutube';
+import { useYoutube } from '../utils/hooks';
 import { storage } from '../utils/storage';
 
 export const SearchContext = createContext();

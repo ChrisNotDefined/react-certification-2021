@@ -2,6 +2,12 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import App from './App.component';
 
+jest.mock('../../utils/hooks/useAuth', () => {
+  return () => ({
+    state: { user: { id: 'test' } },
+  });
+});
+
 describe('App component', () => {
   beforeAll(() => {
     const modalRoot = document.createElement('div');

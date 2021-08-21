@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 const useForm = (submitCallback) => {
   const [values, setValues] = useState({});
@@ -12,14 +12,15 @@ const useForm = (submitCallback) => {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const onSubmit =
-    submitCallback &&
-    ((e) => {
+  const onSubmit = useCallback(
+    (e) => {
       if (e.preventDefault) e.preventDefault();
-      submitCallback();
-    });
+      if (submitCallback) submitCallback();
+    },
+    [submitCallback]
+  );
 
-  return { values, onChange: handleWrite, onSubmit, clearForm: cleanup };
+  return { values, onChange: handleWrite, submit: onSubmit, clearForm: cleanup };
 };
 
 export { useForm };

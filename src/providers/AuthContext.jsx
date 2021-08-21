@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { useAuth } from '../utils/hooks/useAuth';
+import { useAuth } from '../utils/hooks';
 
 export const AuthContext = createContext();
 AuthContext.displayName = 'Auth';
@@ -10,11 +10,12 @@ export const AuthProvider = ({ children }) => {
   const {
     login,
     logout,
-    state: { user, loading, error },
+    register,
+    state: { user: creds, loading, error },
   } = useAuth();
 
   return (
-    <AuthContext.Provider value={{ login, logout, user, loading, error }}>
+    <AuthContext.Provider value={{ login, logout, creds, loading, error, register }}>
       {children}
     </AuthContext.Provider>
   );

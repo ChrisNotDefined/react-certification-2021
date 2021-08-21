@@ -4,8 +4,7 @@ import VideoInfo from '../../components/VideoInfo';
 import VideoTile from '../../components/VideoTile/VideoTile.component';
 import { SpinnerIcon } from '../../Icons';
 import { useSearchContext } from '../../providers/SearchContext';
-import { useRelatedVideos } from '../../utils/hooks/useRelatedVideos';
-import { useVideoDetails } from '../../utils/hooks/useVideoDetails';
+import { useRelatedVideos, useVideoDetails } from '../../utils/hooks';
 import {
   Centerer,
   ListSection,

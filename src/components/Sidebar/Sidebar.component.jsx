@@ -2,7 +2,8 @@ import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { useAuthContext } from '../../providers/AuthContext';
 import { useThemeContext } from '../../providers/ThemeContext';
-import { useModal } from '../../utils/hooks/useModal';
+import { useModal } from '../../utils/hooks';
+import { generateInitials } from '../../utils/strings';
 import Avatar from '../Avatar';
 import LoginModal from '../LoginModal';
 import Toggler from '../Toggler/Toggler.component';
@@ -20,7 +21,8 @@ import {
 
 export default function Sidebar({ showing, onClose }) {
   const { darkTheme, toogleTheme } = useThemeContext();
-  const { user } = useAuthContext();
+  const { creds } = useAuthContext();
+  const initials = generateInitials(creds?.displayName);
   const overlayRef = React.useRef(null);
   const drawerRef = React.useRef(null);
 
@@ -47,10 +49,14 @@ export default function Sidebar({ showing, onClose }) {
       >
         <Drawer ref={drawerRef}>
           <Heading>
-            <Avatar size="5em" src={user && user.avatarUrl} />
+            <Avatar
+              size="100px"
+              initials={creds && !creds.photoURL && initials}
+              src={creds && creds.photoURL}
+            />
             <HeadingActions>
-              <HeadingAction onClick={user ? userModal.openModal : loginModal.openModal}>
-                {user ? 'Account' : 'Log In'}
+              <HeadingAction onClick={creds ? userModal.openModal : loginModal.openModal}>
+                {creds ? 'Account' : 'Log In'}
               </HeadingAction>
               <Toggler onChange={toogleTheme} checked={darkTheme} label="Dark Mode" />
             </HeadingActions>

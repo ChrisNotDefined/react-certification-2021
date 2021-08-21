@@ -50,7 +50,11 @@ export const ModalActions = styled.div`
   margin-top: 1em;
   display: flex;
   gap: 1.2em;
-  justify-content: center;
+  justify-content: space-evenly;
+
+  & > * {
+    flex: 1;
+  }
 
   & > button {
     background-color: transparent;
@@ -72,6 +76,8 @@ export const ModalActions = styled.div`
     }
 
     &.primary {
+      color: ${decideTheme('white', 'inherit')};
+      border: ${decideTheme('none', 'inherit')};
       background-color: var(--primary);
       :hover {
         background-color: var(--primary-brighter);

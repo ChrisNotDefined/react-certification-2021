@@ -2,12 +2,16 @@ import styled from 'styled-components';
 import { decideTheme } from '../../globalStyles';
 
 export const CardBoard = styled.div`
+  user-select: none;
   background-color: ${decideTheme('white', 'var(--paperDark)')};
   box-shadow: 0 1px 4px 1px #0003;
   padding: 1em;
   border-radius: 0.2rem;
   cursor: pointer;
   transition: background-color 200ms;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 
   :hover {
     background-color: ${decideTheme('#eee', '#444')};
@@ -16,8 +20,9 @@ export const CardBoard = styled.div`
 
 export const CardImage = styled.img`
   border-radius: 0.4rem;
-  width: 100%;
-  height: 200px;
+  width: auto;
+  aspect-ratio: 16 / 9;
+  margin: 0;
   object-fit: cover;
   border: solid 4px var(--primary);
 `;

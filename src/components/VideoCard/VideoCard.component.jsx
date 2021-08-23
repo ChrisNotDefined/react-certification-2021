@@ -14,7 +14,7 @@ import {
 const getDataForCard = (video) => {
   return (
     (video && {
-      id: video.id.videoId || video.id.channelId,
+      id: video.id.videoId || video.id.channelId || video.id,
       channelTitle: fromHtmlEntities(video.snippet.channelTitle),
       description: fromHtmlEntities(video.snippet.description),
       publishedAt: video.snippet.publishedAt,
@@ -25,7 +25,7 @@ const getDataForCard = (video) => {
   );
 };
 
-export default function VideoCard({ videoObj }) {
+export default function VideoCard({ videoObj, onClick }) {
   const gt700px = useMediaQuery('(min-width: 700px)');
   const gt500px = useMediaQuery('(min-width: 500px)');
   const history = useHistory();
@@ -55,7 +55,7 @@ export default function VideoCard({ videoObj }) {
   if (v === null) return <div>There is no info to render</div>;
 
   return (
-    <CardBoard onClick={navigateToVideo}>
+    <CardBoard onClick={onClick || navigateToVideo}>
       <CardImage src={decideImg()} alt={`${v.title} thumbnail`} />
       <CardTitle>{v.title}</CardTitle>
       <CardSubtitle>{v.channelTitle}</CardSubtitle>

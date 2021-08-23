@@ -11,8 +11,8 @@ const LoginForm = ({ onSuccess, onError = () => {} }) => {
   const { values, onChange, clearForm, submit } = useForm(() => {
     login(values.email, values.password).then((err) => {
       if (!err) {
-        onSuccess();
         clearForm();
+        onSuccess();
       } else {
         onError();
       }

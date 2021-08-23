@@ -65,7 +65,11 @@ export default function Sidebar({ showing, onClose }) {
             <Option onClick={onClose} activeClassName="active" exact to="/">
               Home
             </Option>
-            <Option to="/fav">Favorites</Option>
+            {creds && (
+              <Option onClick={onClose} activeClassName="active" to="/favs">
+                Favorites
+              </Option>
+            )}
           </ul>
         </Drawer>
       </CSSTransition>

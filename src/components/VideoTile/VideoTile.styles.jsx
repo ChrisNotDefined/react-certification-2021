@@ -30,7 +30,7 @@ export const Thumbnail = styled.img`
 `;
 
 export const TileData = styled.div`
-  color: ${decideTheme('inherit', 'var(--textDark)')};
+  color: ${decideTheme('initial', 'var(--textDark)')};
   width: 100%;
 `;
 

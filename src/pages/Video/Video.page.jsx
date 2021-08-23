@@ -1,18 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import VideoInfo from '../../components/VideoInfo';
+import VideoPlayer from '../../components/VideoPlayer/VideoPlayer.component';
 import VideoTile from '../../components/VideoTile/VideoTile.component';
 import { SpinnerIcon } from '../../Icons';
 import { useSearchContext } from '../../providers/SearchContext';
 import { useRelatedVideos, useVideoDetails } from '../../utils/hooks';
-import {
-  Centerer,
-  ListSection,
-  Middle,
-  VideoFrame,
-  VideoGrid,
-  VideoSection,
-} from './Video.styles';
+import { Centerer, ListSection, Middle, VideoGrid, VideoSection } from './Video.styles';
 
 export default function VideoPage() {
   const { videoId } = useParams();
@@ -30,23 +24,10 @@ export default function VideoPage() {
     return related && related.map((e) => <VideoTile key={e.id.videoId} video={e} />);
   };
 
-  const VideoPlayer = () => {
-    return (
-      <>
-        <VideoFrame
-          title="video"
-          width="100%"
-          src={`https://www.youtube-nocookie.com/embed/${videoId}`}
-          allow="accelerometer; fullscreen; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        />
-      </>
-    );
-  };
-
   return (
     <VideoGrid>
       <VideoSection>
-        <VideoPlayer />
+        <VideoPlayer videoId={videoId} />
         {loadingDescription && (
           <Middle>
             <SpinnerIcon width="3em" animate />

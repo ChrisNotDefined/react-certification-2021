@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Route, HashRouter as Router, Switch } from 'react-router-dom';
+import FavoritesPage from '../../pages/Favorites/FavoritesPage.component';
+import FavVideoPage from '../../pages/FavVideo/FavVideo.page';
 import HomePage from '../../pages/Home/Home.page';
+import NotFoundPage from '../../pages/NotFound';
 import VideoPage from '../../pages/Video';
 import ApplicationContext from '../../providers/ApplicationContext';
 import Layout from '../Layout';
@@ -24,8 +27,14 @@ function App() {
               <Route path="/video=:videoId">
                 <VideoPage />
               </Route>
-              <Route path="/*">
-                <Redirect to="/" />
+              <Route exact path="/favs">
+                <FavoritesPage />
+              </Route>
+              <Route path="/favs=:videoId">
+                <FavVideoPage />
+              </Route>
+              <Route path="*">
+                <NotFoundPage />
               </Route>
             </Switch>
           </Layout>

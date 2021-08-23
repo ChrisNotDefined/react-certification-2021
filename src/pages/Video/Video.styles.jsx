@@ -72,11 +72,3 @@ export const Middle = styled.div`
   justify-content: center;
   height: 100%;
 `;
-
-export const VideoFrame = styled.iframe`
-  background-color: black;
-  max-height: max(30vw, 50vh);
-  aspect-ratio: 16 / 9;
-  align-self: center;
-  border: none;
-`;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { GlobalStyles } from '../globalStyles';
 import { AuthProvider } from './AuthContext';
+import { FavoritesProvider } from './FavoritesContext';
 import { SearchProvider } from './SearchContext';
 import { DarkThemeProvider } from './ThemeContext';
 
@@ -9,7 +10,9 @@ function ApplicationContext({ children }) {
     <DarkThemeProvider>
       <GlobalStyles />
       <AuthProvider>
-        <SearchProvider>{children}</SearchProvider>
+        <FavoritesProvider>
+          <SearchProvider>{children}</SearchProvider>
+        </FavoritesProvider>
       </AuthProvider>
     </DarkThemeProvider>
   );

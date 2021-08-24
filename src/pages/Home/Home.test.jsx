@@ -1,84 +1,24 @@
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, fireEvent, render } from '@testing-library/react';
 import React from 'react';
+import { MemoryRouter } from 'react-router';
 import { SearchProvider } from '../../providers/SearchContext';
-import * as hooks from '../../providers/SearchContext';
+import * as SearchCtx from '../../providers/SearchContext';
+import * as YTHook from '../../utils/hooks/useYoutube';
 import HomePage from './Home.page';
+import Navbar from '../../components/Navbar';
+import ytMock from '../../mocks/youtube-videos-mock.json';
+import * as ytAPI from '../../providers/youtubeAPI';
 
 describe('Home component', () => {
-  const mockVideos = [
-    {
-      kind: 'youtube#searchResult',
-      etag: '_PVKwNJf_qw9nukFeRFOtQ837o0',
-      id: {
-        kind: 'youtube#channel',
-        channelId: 'UCPGzT4wecuWM0BH9mPiulXg',
-      },
-      snippet: {
-        publishedAt: '2014-09-27T01:39:18Z',
-        channelId: 'UCPGzT4wecuWM0BH9mPiulXg',
-        title: 'Wizeline',
-        description:
-          "Wizeline transforms how teams build technology. Its customers accelerate the delivery of innovative products with proven solutions, which combine Wizeline's ...",
-        thumbnails: {
-          default: {
-            url:
-              'https://yt3.ggpht.com/ytc/AAUvwnighSReQlmHl_S_vSfvnWBAG5Cw4A0YxtE0tm5OpQ=s88-c-k-c0xffffffff-no-rj-mo',
-          },
-          medium: {
-            url:
-              'https://yt3.ggpht.com/ytc/AAUvwnighSReQlmHl_S_vSfvnWBAG5Cw4A0YxtE0tm5OpQ=s240-c-k-c0xffffffff-no-rj-mo',
-          },
-          high: {
-            url:
-              'https://yt3.ggpht.com/ytc/AAUvwnighSReQlmHl_S_vSfvnWBAG5Cw4A0YxtE0tm5OpQ=s800-c-k-c0xffffffff-no-rj-mo',
-          },
-        },
-        channelTitle: 'Wizeline',
-        liveBroadcastContent: 'upcoming',
-        publishTime: '2014-09-27T01:39:18Z',
-      },
-    },
-    {
-      kind: 'youtube#searchResult',
-      etag: 'by0t_nrT2TB-IQkQpgSWUVUwpKI',
-      id: {
-        kind: 'youtube#video',
-        videoId: 'Po3VwR_NNGk',
-      },
-      snippet: {
-        publishedAt: '2019-03-05T03:52:55Z',
-        channelId: 'UCXmAOGwFYxIq5qrScJeeV4g',
-        title: 'Wizeline hace sentir a empleados como en casa',
-        description:
-          'En el 2014, Bismarck fundó Wizeline, compañía tecnológica que trabaja con los corporativos ofreciendo una plataforma para que desarrollen software de forma ...',
-        thumbnails: {
-          default: {
-            url: 'https://i.ytimg.com/vi/Po3VwR_NNGk/default.jpg',
-            width: 120,
-            height: 90,
-          },
-          medium: {
-            url: 'https://i.ytimg.com/vi/Po3VwR_NNGk/mqdefault.jpg',
-            width: 320,
-            height: 180,
-          },
-          high: {
-            url: 'https://i.ytimg.com/vi/Po3VwR_NNGk/hqdefault.jpg',
-            width: 480,
-            height: 360,
-          },
-        },
-        channelTitle: 'El Economista TV',
-        liveBroadcastContent: 'none',
-        publishTime: '2019-03-05T03:52:55Z',
-      },
-    },
-  ];
+  const mockVideos = ytMock.items;
 
   const renderNode = () => {
     return render(
       <SearchProvider>
-        <HomePage />
+        <MemoryRouter>
+          <Navbar />
+          <HomePage />
+        </MemoryRouter>
       </SearchProvider>
     );
   };
@@ -107,14 +47,14 @@ describe('Home component', () => {
     expect(container.querySelector('section')).not.toBeUndefined();
   });
 
-  it('Renders empty if there is no videos', () => {
+  it("Renders welcome text if there is no videos and hasn't fetched anything", () => {
     const wrapper = renderNode();
 
-    expect(wrapper).toMatchSnapshot();
+    wrapper.getByText(/Welcome/i);
   });
 
   it('Renders the video list when there are videos loaded', () => {
-    hooks.useSearchContext = jest.fn(() => ({
+    SearchCtx.useSearchContext = jest.fn(() => ({
       result: { items: mockVideos },
     }));
 
@@ -122,5 +62,18 @@ describe('Home component', () => {
 
     const elements = node.getAllByAltText(/thumbnail/i);
     expect(elements.length).toBeGreaterThan(0);
+  });
+
+  it('Renders mocked videos when there is not sucessfull fetch', () => {
+    SearchCtx.useSearchContext = jest.fn(() => ({
+      search: YTHook.useYoutube().search,
+    }));
+
+    ytAPI.queryVideos = jest.fn(() => null);
+    const node = renderNode();
+    const searchBar = node.getByPlaceholderText(/search/i);
+    fireEvent.input(searchBar, { target: { value: 'dnb' } });
+    fireEvent.submit(searchBar);
+    expect(ytAPI.queryVideos).toBeCalled();
   });
 });

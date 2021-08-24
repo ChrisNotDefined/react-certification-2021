@@ -1,17 +1,16 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const useMediaQuery = (queryStr) => {
   const [match, setMatch] = useState(false);
 
-  const onResize = useCallback(() => {
-    setMatch(window.matchMedia(queryStr).matches);
-  }, [queryStr]);
-
   useEffect(() => {
+    const onResize = () => {
+      setMatch(window.matchMedia(queryStr).matches);
+    };
     onResize();
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
-  }, [onResize]);
+  }, [queryStr]);
 
   return match;
 };

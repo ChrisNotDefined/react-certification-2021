@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { queryVideos } from '../../providers/youtubeAPI';
 import { getMockedVideos } from './useMockedVideos';
 
@@ -36,9 +36,9 @@ const useYoutube = () => {
     fetchVideos();
   }, [query]);
 
-  const search = ({ keyword }) => {
+  const search = useCallback(({ keyword }) => {
     setQuery(keyword);
-  };
+  }, []);
 
   return {
     error,

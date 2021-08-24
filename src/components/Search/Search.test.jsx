@@ -7,7 +7,7 @@ import { SearchProvider } from '../../providers/SearchContext';
 describe('Search component', () => {
   let node;
 
-  beforeAll(() => {
+  beforeEach(() => {
     node = render(
       <SearchProvider>
         <BrowserRouter>
@@ -26,19 +26,12 @@ describe('Search component', () => {
   });
 
   it('Cancels search if input is empty', () => {
-    node = render(
-      <SearchProvider>
-        <BrowserRouter>
-          <Search />
-        </BrowserRouter>
-      </SearchProvider>
-    );
-
     fireEvent.submit(node.container.querySelector('form'));
   });
 
   it('Reroutes when submitin in another page', () => {
-    const routedNode = render(
+    cleanup();
+    node = render(
       <SearchProvider>
         <MemoryRouter initialEntries={['/video=:id']}>
           <Search />
@@ -46,8 +39,8 @@ describe('Search component', () => {
       </SearchProvider>
     );
 
-    const input = routedNode.getByPlaceholderText(/search/i);
+    const input = node.getByPlaceholderText(/search/i);
     fireEvent.input(input, { target: { value: 'dnb' } });
-    fireEvent.submit(routedNode.container.querySelector('form'));
+    fireEvent.submit(node.container.querySelector('form'));
   });
 });

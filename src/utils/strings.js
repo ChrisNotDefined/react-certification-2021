@@ -1,5 +1,6 @@
 const textCodes = {
   amp: '&',
+  quot: '"',
 };
 
 export const fromHtmlEntities = (string) => {

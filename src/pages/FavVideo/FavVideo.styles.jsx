@@ -9,6 +9,14 @@ export const VideoContainer = styled.section`
   }
 `;
 
+export const LoadingIndicator = styled.div`
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const ActionsRegion = styled.section`
   color: ${decideTheme('inherit', 'var(--textDark)')};
 
@@ -26,10 +34,12 @@ export const VideoDetails = styled.div`
   background-color: ${decideTheme('var(--primary)', 'var(--paperDark)')};
   color: ${decideTheme('white', 'var(--textDark)')};
   transition: background-color 200ms;
-  height: calc(100vh - 64px);
-  overflow-y: auto;
+  margin-bottom: 4px;
 
   @media (min-width: 900px) {
+    margin-bottom: 0;
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
     position: sticky;
     top: 64px;
   }
@@ -61,12 +71,12 @@ export const VideoHeader = styled.h4`
   text-align: center;
   background-color: ${decideTheme('var(--primary)', 'var(--paperDark)')};
   transition: background-color 200ms;
+  box-shadow: 0px 4px ${decideTheme(`var(--accent)`, `#111`)};
   position: sticky;
-  top: 64px;
+  top: 63px;
 
   @media (min-width: 900px) {
     margin-left: 0.2em;
-    position: static;
   }
 `;
 

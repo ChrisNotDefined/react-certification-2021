@@ -9,7 +9,7 @@ const ACTIONS = {
 
 const favsReducer = (state, [type, payload]) => {
   if (type === ACTIONS.ADD) {
-    const identifier = payload?.snippet?.id?.videoId || payload.id;
+    const identifier = payload?.id?.videoId || payload.id;
     const newState = {
       ...state,
       [identifier]: payload,

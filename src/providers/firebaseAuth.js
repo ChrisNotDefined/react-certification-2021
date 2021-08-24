@@ -34,6 +34,6 @@ export const updateUser = async ({ name, photo }) => {
   return auth.currentUser;
 };
 
-export const listenToChanges = async (listen = () => {}) => {
+export const listenToChanges = (listen = () => {}) => {
   return onAuthStateChanged(auth, listen);
 };

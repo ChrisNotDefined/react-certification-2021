@@ -31,6 +31,8 @@ export const Thumbnail = styled.img`
 
 export const TileData = styled.div`
   color: ${decideTheme('initial', 'var(--textDark)')};
+  display: flex;
+  flex-direction: column;
   width: 100%;
 `;
 
@@ -47,8 +49,35 @@ export const Title = styled.div`
   font-weight: bold;
 `;
 
-export const Subtitle = styled.p`
+export const CardRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   margin: 0.5em 0;
+  margin-bottom: 0;
+  align-self: stretch;
+`;
+
+export const Subtitle = styled.p`
   font-size: 0.7rem;
-  text-align: end;
+  margin: 0;
+`;
+
+export const FavBtn = styled.button`
+  background-color: transparent;
+  border: none;
+  border-radius: 99em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  height: 3em;
+  aspect-ratio: 1;
+  transition: backdrop-filter 150ms;
+  cursor: pointer;
+
+  :hover {
+    --brightAmount: ${decideTheme('0.9', '1.4')};
+    backdrop-filter: brightness(var(--brightAmount));
+  }
 `;

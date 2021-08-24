@@ -2,11 +2,15 @@ import React, { useEffect } from 'react';
 import { Redirect, useHistory, useParams } from 'react-router';
 import VideoPlayer from '../../components/VideoPlayer';
 import VideoTile from '../../components/VideoTile';
+import { SpinnerIcon } from '../../Icons';
 import { useAuthContext } from '../../providers/AuthContext';
 import { useFavoritesContext } from '../../providers/FavoritesContext';
+import { useSearchContext } from '../../providers/SearchContext';
+import { useVideoDetails } from '../../utils/hooks';
 import {
   ActionsRegion,
   ChannelTitle,
+  LoadingIndicator,
   VideoContainer,
   VideoDescription,
   VideoDetails,
@@ -37,7 +41,14 @@ const FavVideoList = ({ videos }) => {
     <div>
       {videos.map((vid) => {
         if (!vid) return null;
-        return <VideoTile key={vid.id} video={vid} onClick={() => lookFav(vid.id)} />;
+        console.log(vid.id);
+        return (
+          <VideoTile
+            key={vid.id.videoId || vid.id}
+            video={vid}
+            onClick={() => lookFav(vid.id.videoId || vid.id)}
+          />
+        );
       })}
     </div>
   );
@@ -47,6 +58,8 @@ const FavVideoPage = () => {
   const { creds } = useAuthContext();
   const { favs } = useFavoritesContext();
   const { videoId } = useParams();
+  const { loading, error } = useVideoDetails({ videoId });
+  const { selected } = useSearchContext();
   const video = favs?.[videoId] || null;
 
   const otherfavsList = Object.keys(favs).map((id) => {
@@ -56,18 +69,23 @@ const FavVideoPage = () => {
 
   if (!creds) return <Redirect to="/" />;
 
-  if (!video) return <div>Failed to load video</div>;
+  if (!video || error) return <div>Failed to load video</div>;
 
   return (
     <>
       <VideoContainer>
-        <VideoPlayer videoId={videoId} />
+        {loading && (
+          <LoadingIndicator>
+            <SpinnerIcon width="3rem" animate />
+          </LoadingIndicator>
+        )}
+        {!loading && <VideoPlayer videoId={videoId} />}
       </VideoContainer>
       <ActionsRegion>
         <VideoDetails>
-          <VideoTitle>{video.snippet.title}</VideoTitle>
-          <ChannelTitle>{video.snippet.channelTitle}</ChannelTitle>
-          <VideoDescription>{video.snippet.description}</VideoDescription>
+          <VideoTitle>{selected.snippet.title}</VideoTitle>
+          <ChannelTitle>{selected.snippet.channelTitle}</ChannelTitle>
+          <VideoDescription>{selected.snippet.description}</VideoDescription>
         </VideoDetails>
         <VideoList>
           <VideoHeader>Your Favorites</VideoHeader>

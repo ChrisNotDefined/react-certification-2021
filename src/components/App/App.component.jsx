@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Route, HashRouter as Router, Switch } from 'react-router-dom';
-import FavoritesPage from '../../pages/Favorites/FavoritesPage.component';
+import FavoritesPage from '../../pages/Favorites';
 import FavVideoPage from '../../pages/FavVideo/FavVideo.page';
 import HomePage from '../../pages/Home/Home.page';
 import NotFoundPage from '../../pages/NotFound';

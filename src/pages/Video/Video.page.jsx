@@ -18,7 +18,7 @@ export default function VideoPage() {
     if (loadingRelated)
       return (
         <Centerer>
-          <SpinnerIcon width="2em" animate />;
+          <SpinnerIcon width="2em" animate />
         </Centerer>
       );
     return related && related.map((e) => <VideoTile key={e.id.videoId} video={e} />);

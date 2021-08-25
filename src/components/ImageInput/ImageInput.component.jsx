@@ -2,13 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Container, HtmlInput, ImagePreview, SelectButton } from './ImageInput.styles';
 import { SpinnerIcon } from '../../Icons';
 
-// const upload = (file) => {
-//   if (!file) return;
-//   uploadImage(file).then((snapshot) => {
-//     console.log(snapshot);
-//   });
-// };
-
 const ImageInput = ({ onFileSelected }) => {
   const [previewImg, setPreviewImg] = useState('');
   const fileInputRef = useRef(null);

@@ -2,11 +2,13 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import App from './App.component';
 
-jest.mock('../../utils/hooks/useAuth', () => {
-  return () => ({
-    state: { user: { id: 'test' } },
-  });
+jest.mock('../../providers/firebaseConfig.js', () => {
+  return { firebaseApp: {} };
 });
+
+jest.mock('firebase/auth', () => ({
+  onAuthStateChanged: () => () => {},
+}));
 
 describe('App component', () => {
   beforeAll(() => {

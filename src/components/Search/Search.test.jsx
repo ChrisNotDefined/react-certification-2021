@@ -4,6 +4,14 @@ import { cleanup, fireEvent, render } from '@testing-library/react';
 import Search from './Search.component';
 import { SearchProvider } from '../../providers/SearchContext';
 
+jest.mock('../../providers/firebaseConfig.js', () => {
+  return { firebaseApp: {} };
+});
+
+jest.mock('firebase/auth', () => ({
+  onAuthStateChanged: () => () => {},
+}));
+
 describe('Search component', () => {
   let node;
 

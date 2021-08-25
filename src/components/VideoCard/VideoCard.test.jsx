@@ -5,6 +5,14 @@ import { SearchProvider } from '../../providers/SearchContext';
 import VideoCard from './VideoCard.component';
 import ytMock from '../../mocks/youtube-videos-mock.json';
 
+jest.mock('../../providers/firebaseConfig.js', () => {
+  return { firebaseApp: {} };
+});
+
+jest.mock('firebase/auth', () => ({
+  onAuthStateChanged: () => () => {},
+}));
+
 describe('VideoCard component', () => {
   const mockVideo = ytMock.items[2];
   let wrapper = null;

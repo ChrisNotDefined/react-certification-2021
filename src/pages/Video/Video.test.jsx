@@ -6,6 +6,22 @@ import * as hooks from '../../providers/SearchContext';
 import mockVideos from '../../mocks/youtube-videos-mock.json';
 import VideoPage from './Video.page';
 
+jest.mock('../../providers/firebaseConfig.js', () => {
+  return { firebaseApp: {} };
+});
+
+jest.mock('firebase/auth', () => ({
+  onAuthStateChanged: () => () => {},
+}));
+
+jest.mock('../../providers/AuthContext', () => ({
+  useAuthContext: () => ({ creds: 'User Data' }),
+}));
+
+jest.mock('../../utils/hooks/useRelatedVideos.js', () => ({
+  useRelatedVideos: () => ({ related: [...mockVideos.items] }),
+}));
+
 describe('Video Page', () => {
   const renderNode = () =>
     render(

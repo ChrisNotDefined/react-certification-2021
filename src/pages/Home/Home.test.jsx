@@ -1,27 +1,27 @@
-import firebaseApp from 'firebase/app';
-import { cleanup, fireEvent, render } from '@testing-library/react';
 import React from 'react';
+import { cleanup, fireEvent, render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { SearchProvider } from '../../providers/SearchContext';
 import * as SearchCtx from '../../providers/SearchContext';
-import { useYoutube as YTHook } from '../../utils/hooks';
 import HomePage from './Home.page';
 import Navbar from '../../components/Navbar';
 import ytMock from '../../mocks/youtube-videos-mock.json';
-import * as ytAPI from '../../providers/youtubeAPI';
 import { AuthProvider } from '../../providers/AuthContext';
+
+jest.mock('../../providers/firebaseConfig.js', () => {
+  return { firebaseApp: {} };
+});
+
+jest.mock('firebase/auth', () => ({
+  onAuthStateChanged: () => () => {},
+}));
 
 describe('Home component', () => {
   beforeAll(() => {
     const modalRoot = document.createElement('div');
     modalRoot.setAttribute('id', 'modal');
     document.body.appendChild(modalRoot);
-    jest.mock('firebase/app');
-
-    jest.spyOn(firebaseApp, 'initializeApp').mockImplementation(() => {});
   });
-
-  const mockVideos = ytMock.items;
 
   const renderNode = () => {
     return render(
@@ -68,7 +68,8 @@ describe('Home component', () => {
 
   it('Renders the video list when there are videos loaded', () => {
     SearchCtx.useSearchContext = jest.fn(() => ({
-      result: { items: mockVideos },
+      result: ytMock,
+      search: jest.fn(() => {}),
     }));
 
     const node = renderNode();
@@ -78,15 +79,27 @@ describe('Home component', () => {
   });
 
   it('Renders mocked videos when there is not sucessfull fetch', () => {
+    const search = jest.fn(() => {});
+
     SearchCtx.useSearchContext = jest.fn(() => ({
-      search: YTHook.useYoutube().search,
+      result: ytMock,
+      search,
     }));
 
-    ytAPI.queryVideos = jest.fn(() => null);
     const node = renderNode();
     const searchBar = node.getByPlaceholderText(/search/i);
     fireEvent.input(searchBar, { target: { value: 'dnb' } });
     fireEvent.submit(searchBar);
-    expect(ytAPI.queryVideos).toBeCalled();
+    expect(search).toBeCalled();
+  });
+
+  it('Shows the Loading screen when fetching', () => {
+    SearchCtx.useSearchContext = jest.fn(() => ({
+      loading: true,
+    }));
+
+    const node = renderNode();
+
+    node.getByText(/Loading/i);
   });
 });

@@ -3,6 +3,14 @@ import { render } from '@testing-library/react';
 import Sidebar from './Sidebar.component';
 import { AuthProvider } from '../../providers/AuthContext';
 
+jest.mock('../../providers/firebaseConfig.js', () => {
+  return { firebaseApp: {} };
+});
+
+jest.mock('firebase/auth', () => ({
+  onAuthStateChanged: () => () => {},
+}));
+
 describe('Sidebar component', () => {
   beforeAll(() => {
     const modalRoot = document.createElement('div');

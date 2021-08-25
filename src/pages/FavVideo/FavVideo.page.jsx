@@ -41,7 +41,6 @@ const FavVideoList = ({ videos }) => {
     <div>
       {videos.map((vid) => {
         if (!vid) return null;
-        console.log(vid.id);
         return (
           <VideoTile
             key={vid.id.videoId || vid.id}

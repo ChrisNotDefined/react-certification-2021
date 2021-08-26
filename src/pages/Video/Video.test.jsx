@@ -1,4 +1,4 @@
-import { cleanup, render } from '@testing-library/react';
+import { act, cleanup, render } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { SearchProvider } from '../../providers/SearchContext';
@@ -35,20 +35,23 @@ describe('Video Page', () => {
   afterEach(cleanup);
 
   it('Renders the video section', () => {
-    const node = renderNode();
-    const iframe = node.container.querySelector('iframe');
-
-    expect(iframe).not.toBeUndefined();
+    act(() => {
+      const node = renderNode();
+      const iframe = node.container.querySelector('iframe');
+      expect(iframe).not.toBeUndefined();
+    });
   });
 
   it('Renders the video list', () => {
-    hooks.useSearchContext = jest.fn(() => ({
-      result: { items: mockVideos.items },
-      selected: mockVideos.items[0],
-      search: jest.fn(),
-    }));
+    act(() => {
+      hooks.useSearchContext = jest.fn(() => ({
+        result: { items: mockVideos.items },
+        selected: mockVideos.items[0],
+        search: jest.fn(),
+      }));
 
-    const node = renderNode();
-    expect(node.getAllByAltText(/tile/gi).length).toBeGreaterThanOrEqual(1);
+      const node = renderNode();
+      expect(node.getAllByAltText(/tile/gi).length).toBeGreaterThanOrEqual(1);
+    });
   });
 });

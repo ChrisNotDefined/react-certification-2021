@@ -64,6 +64,7 @@ const UserModal = ({ showModal, onClose }) => {
       return (
         <>
           <Avatar
+            alt="Profile"
             size="8rem"
             initials={!creds?.photoURL && initials}
             src={creds?.photoURL}

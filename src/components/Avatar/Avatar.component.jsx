@@ -39,12 +39,12 @@ const CircleText = styled.div`
   color: white;
 `;
 
-export default function Avatar({ onClick, src, size, initials }) {
+export default function Avatar({ onClick, src, size, initials, alt }) {
   if (initials)
     return (
       <CircleText size={size} onClick={onClick}>
         {initials}
       </CircleText>
     );
-  return <CircleImage onClick={onClick} size={size} src={src || 'user.svg'} />;
+  return <CircleImage alt={alt} onClick={onClick} size={size} src={src || 'user.svg'} />;
 }

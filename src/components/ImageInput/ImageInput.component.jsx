@@ -32,6 +32,7 @@ const ImageInput = ({ onFileSelected }) => {
   return (
     <Container>
       <HtmlInput
+        data-testid="htmlInput"
         type="file"
         accept="image/*"
         onChange={handleFileSelected}

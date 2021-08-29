@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Sidebar from './Sidebar.component';
+import { MemoryRouter } from 'react-router';
+import Navbar from './Navbar.component';
 import * as AuthCtx from '../../providers/AuthContext';
 
 jest.mock('../../providers/firebaseConfig.js', () => {
@@ -11,31 +12,29 @@ jest.mock('firebase/auth', () => ({
   onAuthStateChanged: () => () => {},
 }));
 
-describe('Sidebar component', () => {
+describe('Navbar', () => {
   beforeAll(() => {
     const modalRoot = document.createElement('div');
     modalRoot.setAttribute('id', 'modal');
     document.body.appendChild(modalRoot);
   });
 
-  const renderSidebar = () => render(<Sidebar />);
+  const renderNav = () => {
+    return render(
+      <MemoryRouter>
+        <Navbar />
+      </MemoryRouter>
+    );
+  };
 
-  it('Must use the aside tag', () => {
-    jest.spyOn(AuthCtx, 'useAuthContext').mockImplementation(() => ({
-      creds: null,
-    }));
-    const { container } = renderSidebar();
-    expect(container.querySelector('aside')).not.toBeUndefined();
-  });
-
-  it('Renders the initials if there is no photo', () => {
+  it('Shows the initials if no picture is available', () => {
     jest.spyOn(AuthCtx, 'useAuthContext').mockImplementation(() => ({
       creds: {
         displayName: 'John Doe',
       },
     }));
 
-    const node = renderSidebar();
-    node.getByText(/JD/);
+    const nav = renderNav();
+    nav.getByText(/JD/);
   });
 });

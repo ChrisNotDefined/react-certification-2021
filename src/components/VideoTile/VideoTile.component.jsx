@@ -13,12 +13,14 @@ import {
   TileData,
   Title,
 } from './VideoTile.styles';
+import { useAuthContext } from '../../providers/AuthContext';
 
 export default function VideoTile({ video, onClick }) {
   const history = useHistory();
   const { select } = useSearchContext();
   const { addFav, removeFav, favs } = useFavoritesContext();
-  const videoID = video.id.videoId || video.id.channelId || video.id;
+  const { creds } = useAuthContext();
+  const videoID = video.id.videoId || video.id;
 
   const handleClick = () => {
     history.push(`video=${videoID}`);
@@ -41,9 +43,11 @@ export default function VideoTile({ video, onClick }) {
         <Title>{fromHtmlEntities(video.snippet.title)}</Title>
         <CardRow>
           <Subtitle>{fromHtmlEntities(video.snippet.channelTitle)}</Subtitle>
-          <FavBtn onClick={handleFavClick} type="button">
-            <FavoriteIcon active={favs[videoID]} height="80%" />
-          </FavBtn>
+          {creds && (
+            <FavBtn onClick={handleFavClick} type="button">
+              <FavoriteIcon active={favs[videoID]} height="80%" />
+            </FavBtn>
+          )}
         </CardRow>
       </TileData>
     </Container>

@@ -8,21 +8,21 @@ import { useSearchContext } from '../../providers/SearchContext';
 import { useRelatedVideos, useVideoDetails } from '../../utils/hooks';
 import { Centerer, ListSection, Middle, VideoGrid, VideoSection } from './Video.styles';
 
+const ShowRelatedVideos = ({ videoId }) => {
+  const { related, loading: loadingRelated } = useRelatedVideos({ videoId });
+  if (loadingRelated)
+    return (
+      <Centerer>
+        <SpinnerIcon width="2em" animate />
+      </Centerer>
+    );
+  return related && related.map((e) => <VideoTile key={e.id.videoId} video={e} />);
+};
+
 export default function VideoPage() {
   const { videoId } = useParams();
   const { selected } = useSearchContext();
-  const { related, loading: loadingRelated } = useRelatedVideos({ videoId });
-  const { loading: loadingDescription } = useVideoDetails({ videoId });
-
-  const ShowRelatedVideos = () => {
-    if (loadingRelated)
-      return (
-        <Centerer>
-          <SpinnerIcon width="2em" animate />
-        </Centerer>
-      );
-    return related && related.map((e) => <VideoTile key={e.id.videoId} video={e} />);
-  };
+  const { loading: loadingDescription, error } = useVideoDetails({ videoId });
 
   return (
     <VideoGrid>
@@ -33,10 +33,13 @@ export default function VideoPage() {
             <SpinnerIcon width="3em" animate />
           </Middle>
         )}
-        {!loadingDescription && selected && <VideoInfo selectedVideo={selected} />}
+        {!error && !loadingDescription && selected && (
+          <VideoInfo selectedVideo={selected} />
+        )}
+        {error && <div>Something went wrong :C</div>}
       </VideoSection>
       <ListSection>
-        <ShowRelatedVideos />
+        <ShowRelatedVideos videoId={videoId} />
       </ListSection>
     </VideoGrid>
   );

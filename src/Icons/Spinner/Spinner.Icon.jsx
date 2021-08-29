@@ -31,6 +31,7 @@ const Spinner = styled(Icon)`
 const SpinnerIcon = ({ primary, width, height, accent, animate }) => {
   return (
     <Spinner {...{ width, height, primary, accent, animate }} viewBox="0 0 512 512">
+      <title>Loader</title>
       <path
         className="primary"
         d="m402.7 47.5c-57.601-3.6-158.701 169.2-146.7 208.5-40.201-9.3-123.168 11.944-155.054-43.207-28.124-48.643-6.604-157.01 47.954-188.094 32.4-15.3 68.999-24.699 107.1-24.699 54.6 0 105.3 18.1 146.7 47.5z"

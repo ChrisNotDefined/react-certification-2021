@@ -73,7 +73,7 @@ const UserModal = ({ showModal, onClose }) => {
             Change Image
           </ChangeImageButton>
           <AccountName>{creds?.displayName}</AccountName>
-          <AccountID>ID: {creds?.uid || creds?.id}</AccountID>
+          <AccountID>ID: {creds?.uid}</AccountID>
         </>
       );
     }

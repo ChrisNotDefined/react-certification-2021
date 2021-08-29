@@ -1,7 +1,16 @@
 import React, { createContext, useContext } from 'react';
 import { useAuth } from '../utils/hooks';
 
-export const AuthContext = createContext();
+export const AuthContext = createContext({
+  // eslint-disable-next-line no-unused-vars
+  login: (user, pwd) => {},
+  // eslint-disable-next-line no-unused-vars
+  register: (user, pwd, repPwd, name) => {},
+  logout: () => {},
+  creds: null,
+  loading: false,
+  error: null,
+});
 AuthContext.displayName = 'Auth';
 
 export const useAuthContext = () => useContext(AuthContext);

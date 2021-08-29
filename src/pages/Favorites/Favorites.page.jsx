@@ -4,10 +4,12 @@ import { useAuthContext } from '../../providers/AuthContext';
 import { useFavoritesContext } from '../../providers/FavoritesContext';
 import VideoCard from '../../components/VideoCard/VideoCard.component';
 import { EmptyList, FavsList, FavsSection, UnauthMessage } from './Favorites.styles';
+import { useSearchContext } from '../../providers/SearchContext';
 
 const FavoritesPage = () => {
   const { creds } = useAuthContext();
   const { favs } = useFavoritesContext();
+  const { select } = useSearchContext();
   const history = useHistory();
 
   const Favorites = () => {
@@ -16,6 +18,7 @@ const FavoritesPage = () => {
 
       const goToFavVideo = () => {
         history.push(`/favs=${key}`);
+        select(fav);
       };
 
       return <VideoCard key={key} videoObj={fav} onClick={goToFavVideo} />;

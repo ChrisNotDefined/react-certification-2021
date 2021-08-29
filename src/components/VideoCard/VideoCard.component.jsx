@@ -13,6 +13,7 @@ import {
   CardTitle,
   RoundButton,
 } from './VideoCard.styles';
+import { useAuthContext } from '../../providers/AuthContext';
 
 const getDataForCard = (video) => {
   return (
@@ -33,6 +34,7 @@ export default function VideoCard({ videoObj, onClick }) {
   const gt500px = useMediaQuery('(min-width: 500px)');
   const history = useHistory();
   const { favs, addFav, removeFav } = useFavoritesContext();
+  const { creds } = useAuthContext();
   const { select } = useSearchContext();
   const v = getDataForCard(videoObj);
 
@@ -69,9 +71,11 @@ export default function VideoCard({ videoObj, onClick }) {
       <CardTitle>{v.title}</CardTitle>
       <CardSubtitle>{v.channelTitle}</CardSubtitle>
       <CardContent>{v.description}</CardContent>
-      <RoundButton onClick={favoriteClick}>
-        <FavoriteIcon active={!!favs[v.id]} width="2em" />
-      </RoundButton>
+      {creds && (
+        <RoundButton onClick={favoriteClick}>
+          <FavoriteIcon active={!!favs[v.id]} width="2em" />
+        </RoundButton>
+      )}
     </CardBoard>
   );
 }

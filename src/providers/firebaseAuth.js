@@ -8,7 +8,6 @@ import {
 import { auth } from './firebaseConfig';
 
 export const registerUser = async ({ email, password, name }) => {
-  console.log(name);
   await createUserWithEmailAndPassword(auth, email, password);
   await updateProfile(auth.currentUser, {
     displayName: name,

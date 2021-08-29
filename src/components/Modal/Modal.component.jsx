@@ -10,7 +10,7 @@ import {
   transitionDuration,
 } from './Modal.styles';
 
-const Modal = ({ show = true, onClose, children } = {}) => {
+const Modal = ({ show, onClose, children }) => {
   const animRef = useRef(null);
 
   return (

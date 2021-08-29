@@ -41,6 +41,8 @@ export const CardContent = styled.p`
 export const CardTitle = styled.h3`
   color: ${decideTheme('inherit', 'var(--textDark)')};
   font-size: 1.3rem;
+  max-height: 3em;
+  overflow-y: hidden;
   margin-bottom: 0.5rem;
   font-weight: normal;
 `;
@@ -55,19 +57,21 @@ export const CardSubtitle = styled.div`
 
 export const RoundButton = styled.button`
   background-color: transparent;
-  transition: background-color 200ms;
   border-radius: 99em;
-  border: solid ${decideTheme('#8888', '#eee8')};
-  margin-left: auto;
-  margin-right: 0;
-  margin-top: auto;
-  margin-bottom: 0;
+  margin: auto 0 0 auto;
   height: 4em;
   width: 4em;
   display: flex;
+  opacity: 0;
+  transition: background-color 200ms, opacity 200ms;
+  border: solid ${decideTheme('#8888', '#eee8')};
 
   > * {
     margin: auto;
+  }
+
+  ${CardBoard}:hover & {
+    opacity: 1;
   }
 
   :hover {

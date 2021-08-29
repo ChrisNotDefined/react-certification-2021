@@ -42,9 +42,6 @@ export const queryVideos = async ({ keyword, maxResults = 18 }) => {
       q: keyword,
     };
 
-    // Pagination not yet implemented
-    // if (pageToken !== undefined) params.pageToken = pageToken;
-
     return await callForVideos({ withParams: params });
   } catch (error) {
     return null;

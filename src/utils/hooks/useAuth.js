@@ -70,7 +70,6 @@ const useAuth = () => {
     try {
       dispatch([ACTIONS.LOGIN]);
       const resp = await signUser(user, pwd);
-      console.log(resp);
       dispatch([ACTIONS.SUCCESS, resp.user]);
     } catch (error) {
       dispatch([ACTIONS.ERROR, error]);
@@ -84,7 +83,6 @@ const useAuth = () => {
         throw new Error('Check that your passwords were written correctly.');
       dispatch([ACTIONS.LOGIN]);
       const resp = await registerUser({ email, password, name });
-      console.log(resp);
       dispatch([ACTIONS.SUCCESS, resp.user]);
     } catch (error) {
       console.error(error);

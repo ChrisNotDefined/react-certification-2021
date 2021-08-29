@@ -9,6 +9,10 @@ const storage = {
     }
   },
 
+  remove(key) {
+    window.localStorage.removeItem(key);
+  },
+
   set(key, value) {
     const jsonStr = JSON.stringify(value);
     if (jsonStr) window.localStorage.setItem(key, jsonStr);

@@ -14,7 +14,7 @@ const Favorite = styled(Icon)`
   }
 `;
 
-const FavoriteIcon = ({ active, width, height } = {}) => {
+const FavoriteIcon = ({ active, width, height }) => {
   return (
     <Favorite x="0px" y="0px" {...{ width, height }} viewBox="0 0 126.729 126.73">
       <path

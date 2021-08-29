@@ -6,7 +6,7 @@ import { useForm } from '../../utils/hooks';
 import FormField from '../FormField';
 import { ActionButton, ErrorMsg, StatusContainer } from '../Form/Form.styles';
 
-const LoginForm = ({ onSuccess, onError = () => {} }) => {
+const LoginForm = ({ onSuccess, onError }) => {
   const { login, error, loading } = useAuthContext();
   const { values, onChange, clearForm, submit } = useForm(() => {
     login(values.email, values.password).then((err) => {

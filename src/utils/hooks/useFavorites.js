@@ -33,7 +33,7 @@ const favsReducer = (state, [type, payload]) => {
   }
 
   if (type === ACTIONS.UPDATE) {
-    storage.set('favorites', payload);
+    storage.set('favorites', payload || {});
     return payload;
   }
 
@@ -55,7 +55,7 @@ const useFavorites = () => {
     }
 
     const onSnapshot = (docData) => {
-      dispatch([ACTIONS.UPDATE, docData]);
+      dispatch([ACTIONS.UPDATE, docData || {}]);
     };
 
     const unsubs = listenToFavorites(id, onSnapshot);

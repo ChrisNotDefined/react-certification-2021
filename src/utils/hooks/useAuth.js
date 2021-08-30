@@ -83,7 +83,7 @@ const useAuth = () => {
         throw new Error('Check that your passwords were written correctly.');
       dispatch([ACTIONS.LOGIN]);
       const resp = await registerUser({ email, password, name });
-      dispatch([ACTIONS.SUCCESS, resp.user]);
+      dispatch([ACTIONS.SUCCESS, resp]);
     } catch (error) {
       console.error(error);
       dispatch([ACTIONS.ERROR], error);

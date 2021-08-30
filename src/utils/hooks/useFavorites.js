@@ -55,7 +55,7 @@ const useFavorites = () => {
     }
 
     const onSnapshot = (docData) => {
-      dispatch([ACTIONS.UPDATE, docData || {}]);
+      dispatch([ACTIONS.UPDATE, docData]);
     };
 
     const unsubs = listenToFavorites(id, onSnapshot);

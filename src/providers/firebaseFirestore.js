@@ -11,7 +11,7 @@ import { fireStore } from './firebaseConfig';
 export const listenToFavorites = (userId, onSnap) => {
   const favRef = doc(fireStore, 'favorites', userId);
   const unSub = onSnapshot(favRef, (docSnap) => {
-    onSnap(docSnap.data());
+    onSnap(docSnap.data() || {});
   });
   return unSub;
 };

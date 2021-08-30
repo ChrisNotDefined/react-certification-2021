@@ -43,12 +43,10 @@
       "/node_modules/",
       "/src/serviceWorker.js",
       "/src/index.js",
-      "/src/utils/hooks/useMockedVideos",
       "/src/providers/firebaseConfig",
       "/src/providers/firebaseAuth",
       "/src/providers/firebaseFirestore",
-      "/src/providers/firebaseStorage",
-      "/src/providers/"
+      "/src/providers/firebaseStorage"
     ],
     "coverageThreshold": {
       "global": {

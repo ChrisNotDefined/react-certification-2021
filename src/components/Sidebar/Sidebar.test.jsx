@@ -1,4 +1,5 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router';
 import { render } from '@testing-library/react';
 import Sidebar from './Sidebar.component';
 import * as AuthCtx from '../../providers/AuthContext';
@@ -18,14 +19,19 @@ describe('Sidebar component', () => {
     document.body.appendChild(modalRoot);
   });
 
-  const renderSidebar = () => render(<Sidebar />);
+  const renderSidebar = () =>
+    render(
+      <MemoryRouter>
+        <Sidebar showing />
+      </MemoryRouter>
+    );
 
   it('Must use the aside tag', () => {
     jest.spyOn(AuthCtx, 'useAuthContext').mockImplementation(() => ({
       creds: null,
     }));
     const { container } = renderSidebar();
-    expect(container.querySelector('aside')).not.toBeUndefined();
+    expect(container.querySelector('aside')).not.toBeNull();
   });
 
   it('Renders the initials if there is no photo', () => {

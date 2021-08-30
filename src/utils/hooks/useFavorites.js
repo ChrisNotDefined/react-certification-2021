@@ -33,7 +33,7 @@ const favsReducer = (state, [type, payload]) => {
   }
 
   if (type === ACTIONS.UPDATE) {
-    storage.set('favorites', payload || {});
+    storage.set('favorites', payload);
     return payload;
   }
 

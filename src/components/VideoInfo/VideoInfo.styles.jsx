@@ -3,6 +3,7 @@ import { decideTheme } from '../../globalStyles';
 
 export const Container = styled.div`
   color: ${decideTheme('white', 'var(--textDark)')};
+  flex: 1;
 `;
 
 export const Row = styled.div`

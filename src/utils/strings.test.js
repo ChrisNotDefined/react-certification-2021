@@ -1,4 +1,4 @@
-import { fromHtmlEntities } from './strings';
+import { fromHtmlEntities, generateInitials } from './strings';
 
 describe('Html Decoding', () => {
   it('Should pass html encoding to a readable string', () => {
@@ -29,5 +29,22 @@ describe('Html Decoding', () => {
     const result = fromHtmlEntities('&unknown; Rare char');
 
     expect(result).toBe('&unknown; Rare char');
+  });
+});
+
+describe('Initials generator', () => {
+  it('Returns initial of each word', () => {
+    const result = generateInitials('Lorem Ipsum');
+    expect(result).toBe('LI');
+  });
+
+  it('Returns first two letters if only one word is provided', () => {
+    const result = generateInitials('Lorem');
+    expect(result).toBe('LO');
+  });
+
+  it('Return nothing if no word is sent', () => {
+    const result = generateInitials();
+    expect(result).toBeUndefined();
   });
 });

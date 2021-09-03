@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { decideTheme } from '../../globalStyles';
 
 export const VideoGrid = styled.section`
@@ -15,17 +15,7 @@ export const VideoGrid = styled.section`
   }
 `;
 
-export const VideoSection = styled.section`
-  background-color: ${decideTheme('var(--primary)', 'var(--paperDark)')};
-  padding: 1em;
-  display: flex;
-  flex-direction: column;
-  transition: background-color 200ms;
-`;
-
-export const ListSection = styled.section`
-  background-color: ${decideTheme('var(--accent)', 'var(--baseDark)')};
-
+const CustomScrollbar = css`
   &::-webkit-scrollbar {
     width: 1ch;
     background-color: ${decideTheme('var(--accent-brighter)', 'var(--paperDark)')};
@@ -39,6 +29,16 @@ export const ListSection = styled.section`
       background-color: var(--primary-brighter);
     }
   }
+`;
+
+export const VideoSection = styled.section`
+  background-color: ${decideTheme('var(--primary)', 'var(--paperDark)')};
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 200ms;
+
+  ${CustomScrollbar}
 
   @media (min-width: 850px) {
     height: calc(100vh - 64px);
@@ -46,10 +46,29 @@ export const ListSection = styled.section`
   }
 `;
 
-export const VideoFrame = styled.iframe`
-  background-color: black;
-  max-height: max(30vw, 50vh);
-  aspect-ratio: 16 / 9;
-  align-self: center;
-  border: none;
+export const ListSection = styled.section`
+  background-color: ${decideTheme('var(--accent)', 'var(--baseDark)')};
+
+  ${CustomScrollbar}
+
+  @media (min-width: 850px) {
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+  }
+`;
+
+export const Centerer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (min-width: 850px) {
+    height: calc(100vh - 64px);
+  }
+`;
+
+export const Middle = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 100%;
 `;

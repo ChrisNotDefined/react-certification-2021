@@ -80,6 +80,10 @@ export const HeadingActions = styled.div`
   flex-direction: column;
   gap: 1em;
   color: var(--accent-brighter);
+
+  & label {
+    color: white;
+  }
 `;
 
 export const HeadingAction = styled.button`

@@ -15,3 +15,10 @@ export const fromHtmlEntities = (string) => {
     return textCodes[code] || s;
   });
 };
+
+export const generateInitials = (nameStr) => {
+  if (!nameStr || nameStr === '') return;
+  const [first, seccond] = nameStr.match(/\w+/g);
+  if (!seccond) return `${first[0]}${first[1]}`.toUpperCase();
+  return `${first[0]}${seccond[0]}`.toUpperCase();
+};

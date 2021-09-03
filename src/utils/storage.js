@@ -9,8 +9,13 @@ const storage = {
     }
   },
 
+  remove(key) {
+    window.localStorage.removeItem(key);
+  },
+
   set(key, value) {
-    window.localStorage.setItem(key, JSON.stringify(value));
+    const jsonStr = JSON.stringify(value);
+    if (jsonStr) window.localStorage.setItem(key, jsonStr);
   },
 };
 

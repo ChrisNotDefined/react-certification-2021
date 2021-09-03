@@ -1,8 +1,17 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
-import { useYoutube } from '../utils/hooks/useYoutube';
+import { useYoutube } from '../utils/hooks';
 import { storage } from '../utils/storage';
 
-export const SearchContext = createContext();
+export const SearchContext = createContext({
+  // eslint-disable-next-line no-unused-vars
+  search: ({ keyword }) => {},
+  // eslint-disable-next-line no-unused-vars
+  select: (video) => {},
+  result: null,
+  error: null,
+  loading: false,
+  selected: null,
+});
 SearchContext.displayName = 'Search';
 
 export const useSearchContext = () => useContext(SearchContext);

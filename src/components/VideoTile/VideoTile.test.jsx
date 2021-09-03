@@ -7,6 +7,14 @@ import { SearchProvider } from '../../providers/SearchContext';
 import ytMock from '../../mocks/youtube-videos-mock.json';
 import { Container } from './VideoTile.styles';
 
+jest.mock('../../providers/firebaseConfig.js', () => {
+  return { firebaseApp: {} };
+});
+
+jest.mock('firebase/auth', () => ({
+  onAuthStateChanged: () => () => {},
+}));
+
 describe('Video Tile Component', () => {
   let element;
 

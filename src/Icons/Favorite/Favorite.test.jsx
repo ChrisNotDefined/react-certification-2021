@@ -4,7 +4,7 @@ import { FavoriteIcon } from './Favorite.Icon';
 
 describe('Favoritre Icon', () => {
   it('Renders with no issues', () => {
-    const container = render(<FavoriteIcon />);
+    const container = render(<FavoriteIcon active />);
     expect(container).not.toBeNull();
   });
 });

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import { queryVideos } from '../../providers/youtubeAPI';
-import { getMockedVideos } from './useMockedVideos';
 
 const useYoutube = () => {
   const [error, setError] = useState(null);
@@ -17,8 +16,7 @@ const useYoutube = () => {
         setLoading(true);
         setError(null);
 
-        const fetchedData =
-          (await queryVideos({ keyword: query })) || (await getMockedVideos());
+        const fetchedData = await queryVideos({ keyword: query });
 
         if (!fetchedData || fetchedData.error) {
           throw new Error(fetchedData?.error || 'No data fetched');
